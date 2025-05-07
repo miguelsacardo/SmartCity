@@ -23,3 +23,5 @@ AMBIENTE(
   responsavel
 )
 
+-> o ambiente pode ser apenas uma coluna na tabela "sensor"
+
