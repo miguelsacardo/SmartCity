@@ -27,67 +27,52 @@ class UserRegistrationView(ListCreateAPIView):
         
         elif self.request.method == 'POST':
             return UserRegisterSerializer
-        
-class ImportAmbientData(APIView):
+
+class ImportData(APIView):
     parser_classes = [parsers.MultiPartParser]
 
     def post(self, request, *args, **kwargs):
         file = request.FILES['excel']
-        df = pd.read_excel(file)
-
-        ambient_resource = AmbienteResource()
-        dataset = Dataset().load(df)
-
-        result = ambient_resource.import_data(dataset, dry_run=True, raise_errors=True)
-
-        if not result.has_errors():
-            result = ambient_resource.import_data(dataset, dry_run=False)
-            return Response({"status": "Ambient data imported successfully"})
+        df = pd.read_excel(file) 
         
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    
-class ImportSensorData(APIView):
-    parser_classes = [parsers.MultiPartParser]
-
-    def post(self, request, *args, **kwargs):
-        file = request.FILES['excel']
-        df = pd.read_excel(file)  
+        type = request.data['type']
+        resource = None
 
         #rename columns -> ensure that columns can have upper and lower names
         df = df.rename(columns=lambda column_name: column_name.lower())
 
-        # convert the value of 'ambient' to str
-        df['ambiente'] = df['ambiente'].astype(str)
+        # differentiates between which sensor the spreadsheet is 
+        match type:
+            case "ambiente":
+                resource = AmbienteResource()
+            case "sensor":
+                # convert the value of 'ambient' to str
+                df['ambiente'] = df['ambiente'].astype(str)
+                resource = SensorResource()
+            case "data":
+                resource = HistoricoResource()
+            case _:
+                raise Http404({"detail": f"Type {type} does not exist."})
+        
+        request_resource = resource
+        dataset = Dataset().load(df)
 
-        sensor_resource = SensorResource()
-        dataset = Dataset().load(df) 
-
-        # simulates the sending the excel file, but doesn't save it to the database yet
-        # important to check errors. Here is validated if there is also an additional
-        # foreign key query
-        result = sensor_resource.import_data(dataset, dry_run=True, raise_errors=False)
+        # simulates an import, but does not save data to the database yet
+        result = request_resource.import_data(dataset, dry_run=True, raise_errors=False)
 
         if not result.has_errors():
-
-            # if the simulation has no errors, now saves it to the database completely
-            result = sensor_resource.import_data(dataset, dry_run=False)
+            result = request_resource.import_data(dataset, dry_run=False)
             return Response(status=status.HTTP_200_OK)
         else:
+            message = ""
             for i in result.error_rows:
-                return Response({"detail":f"Erro na linha {i.number + 1} do arquivo. Verifique se o ambiente com valor '{i.errors[0].row['ambiente']}' existe na lista de ambientes."},
-                                status=status.HTTP_400_BAD_REQUEST)
+                if type == "sensor":
+                    message = f"Erro na linha {i.number + 1} do arquivo. O ambiente '{i.errors[0].row['ambiente']}' talvez não esteja cadastrado."
+                elif type == "data":
+                    message = f"Erro na linha {i.number + 1} do arquivo. O sensor '{i.errors[0].row['sensor']}' talvez não esteja cadastrado."
+                return Response({"detail":message}, status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
-# class ImportHistoricData(APIView):
-#     parser_classes = [parsers.MultiPartParser]
-
-#     def post(self, request, *args, **kwargs):
-#         file = request.FILES['excel']
-#         df = pd.read_excel(file)
-
-#         #rename columns -> ensure that columns can have upper and lower names
-#         df = df.rename(columns=lambda column_name: column_name.lower())
 
                
 

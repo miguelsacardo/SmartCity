@@ -23,8 +23,13 @@ class SensorResource(resources.ModelResource):
         use_bulk = True
     
 class HistoricoResource(resources.ModelResource):
+    sensor = fields.Field(
+        column_name='sensor',
+        attribute='sensor',
+        widget=ForeignKeyWidget(Sensor, 'mac_address')
+    )
     class Meta:
         model = Historico
-        import_id_fields = ['Historico__id']
+        import_id_fields = ['id']
         skip_unchanged = False
         use_bulk = True
