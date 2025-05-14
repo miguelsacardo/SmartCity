@@ -52,29 +52,42 @@ class ImportSensorData(APIView):
     def post(self, request, *args, **kwargs):
         file = request.FILES['excel']
         df = pd.read_excel(file)  
-        query = None
 
-        # convert the value of 'ambient' to integer
+        #rename columns -> ensure that columns can have upper and lower names
+        df = df.rename(columns=lambda column_name: column_name.lower())
+
+        # convert the value of 'ambient' to str
         df['ambiente'] = df['ambiente'].astype(str)
 
-        # interate the ambient values from df to make a query and checks if the ambient exists (because it is foreign key)
-        for value in df['ambiente'].values:
-            query = list(Ambiente.objects.filter(sig=value))
-            
-            # if an ambient doesn't exists, an error is raised and indicates which row has the inexistent ambient
-            if not query: 
-                loc = df.loc[df['ambiente'] == value].index.tolist()
-                return Http404(f"Voce esta tentando cadastrar sensores com ambiente(s) inexistente(s) na linha {loc[0] + 2}")
-            else:
-                sensor_resource = SensorResource()
-                dataset = Dataset().load(df) 
+        sensor_resource = SensorResource()
+        dataset = Dataset().load(df) 
 
-                result = sensor_resource.import_data(dataset, dry_run=True, raise_errors=True)
+        # simulates the sending the excel file, but doesn't save it to the database yet
+        # important to check errors. Here is validated if there is also an additional
+        # foreign key query
+        result = sensor_resource.import_data(dataset, dry_run=True, raise_errors=False)
 
-                if not result.has_errors():
-                    result = sensor_resource.import_data(dataset, dry_run=False)
-                    return Response(status=status.HTTP_200_OK)
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+        if not result.has_errors():
+
+            # if the simulation has no errors, now saves it to the database completely
+            result = sensor_resource.import_data(dataset, dry_run=False)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            for i in result.error_rows:
+                return Response({"detail":f"Erro na linha {i.number + 1} do arquivo. Verifique se o ambiente com valor '{i.errors[0].row['ambiente']}' existe na lista de ambientes."},
+                                status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# class ImportHistoricData(APIView):
+#     parser_classes = [parsers.MultiPartParser]
+
+#     def post(self, request, *args, **kwargs):
+#         file = request.FILES['excel']
+#         df = pd.read_excel(file)
+
+#         #rename columns -> ensure that columns can have upper and lower names
+#         df = df.rename(columns=lambda column_name: column_name.lower())
 
                
 

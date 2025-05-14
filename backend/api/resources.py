@@ -21,3 +21,10 @@ class SensorResource(resources.ModelResource):
         import_id_fields = ['mac_address']
         skip_unchanged = True
         use_bulk = True
+    
+class HistoricoResource(resources.ModelResource):
+    class Meta:
+        model = Historico
+        import_id_fields = ['Historico__id']
+        skip_unchanged = False
+        use_bulk = True

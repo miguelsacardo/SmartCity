@@ -11,5 +11,8 @@ urlpatterns = [
     path('ambient/', ImportAmbientData.as_view()),
 
     # sensor import file
-    path('sensor/', ImportSensorData.as_view())
+    path('sensor/', ImportSensorData.as_view()),
+
+    #import data
+    path('data/', ImportData.as_view())
 ]
