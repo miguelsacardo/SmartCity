@@ -19,13 +19,16 @@ urlpatterns = [
     path('data/', ImportData.as_view()),
 
     # ambiente view
-    path("ambiente/", AmbienteView.as_view()),
     path("ambiente/<int:pk>", AmbienteView.as_view()),
 
     # sensor view
-    path("sensor/", SensorView.as_view()),
     path("sensor/<int:pk>", SensorView.as_view()),
 
-    # # teste
-    # path("teste/", ListPagedView.as_view())
+    # historico view
+    path("historico/<int:pk>", HistoricoView.as_view()),
+
+    # list ambiente, historico and ambientes
+    path("list/", ListPagedView.as_view()),
+
+    
 ]
