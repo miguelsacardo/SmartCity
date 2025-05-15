@@ -5,10 +5,12 @@ django-cors-headers==4.7.0
 django-filter==25.1
 django-import-export==4.3.7
 djangorestframework==3.16.0
+djangorestframework_simplejwt==5.5.0
 et_xmlfile==2.0.0
 numpy==2.2.5
 openpyxl==3.1.5
 pandas==2.2.3
+PyJWT==2.9.0
 python-dateutil==2.9.0.post0
 pytz==2025.2
 six==1.17.0

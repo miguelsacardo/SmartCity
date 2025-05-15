@@ -19,7 +19,7 @@ class Sensor(models.Model):
     )
 
     UNID_MEDIDA = (
-        ('ºC', 'Celcius'),
+        ('°C', 'Celcius'),
         ('lux', 'Lux'),
         ('%', 'Porcentagem'),
         ('num', 'contador')
@@ -33,7 +33,7 @@ class Sensor(models.Model):
     sensor = models.CharField(max_length=30, choices=SENSOR_TYPES, blank=False, null=False, default="temperatura")
     mac_address = models.CharField(max_length=255, blank=False, null=False) # this field must be unique, but for now, no
     ambiente = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
-    unidade_medida = models.CharField(max_length=3, blank=False, null=False, default="ºC")
+    unidade_medida = models.CharField(max_length=3, blank=False, null=False, default="°C")
     latitude = models.FloatField()
     longitude = models.FloatField()
     status = models.CharField(max_length=20, blank=False, null=False, choices=STATUS, default="ativo")

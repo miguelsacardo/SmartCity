@@ -4,9 +4,10 @@ from django.http import Http404
 from api.serializers import *
 from .models import *
 from .resources import *
+from .pagination_config import StandardResultsPagination
 
 
-from rest_framework.generics import ListCreateAPIView, GenericAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveDestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -16,7 +17,7 @@ import pandas as pd
 from tablib import Dataset
 
 class UserRegistrationView(ListCreateAPIView):
-    
+
     queryset = User.objects.all()
 
     # checks which serializer will be used based on the http method -> improve api security
@@ -73,7 +74,87 @@ class ImportData(APIView):
                 return Response({"detail":message}, status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+# responsible to List paged, patch and destroy ambients
+class AmbienteView(ListAPIView, RetrieveDestroyAPIView):
+    queryset = Ambiente.objects.all()
+    serializer_class = AmbienteSerializer
+    pagination_class = StandardResultsPagination
 
-               
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
 
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def patch(self, request, pk):
+        ambiente = get_object_or_404(Ambiente, id=pk)
+
+        serializer = AmbienteSerializer(ambiente, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class SensorView(ListAPIView, RetrieveDestroyAPIView):
+    queryset = Sensor.objects.all()
+    serializer_class = SensorSerializer
+    pagination_class = StandardResultsPagination
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def patch(self, request, pk):
+        sensor = get_object_or_404(Sensor, id=pk)
+        
+        # correct measurements depending on the type of sensor
+        match request.data["sensor"]:
+            case "temperatura": request.data["unidade_medida"] = "°C"
+            case "luminosidade": request.data["unidade_medida"] = "lux"
+            case "umidade": request.data["unidade_medida"] = "%"
+            case "contagem": request.data["unidade_medida"] = "num"
+            case _: raise Http404({"detail":"tipo de sensor não existente."})
+
+        serializer = SensorSerializer(sensor, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class HistoricoView(ListAPIView, RetrieveDestroyAPIView):
+    queryset = Historico.objects.all()
+    serializer_class = HistoricoSerializer
+    pagination_class = StandardResultsPagination
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+# class ListPagedView(ListAPIView):
+#     def list(self, request, *args, **kwargs):
+#         name = request.query_params.get("type")
+
+#         if name == "ola":
+#             return Response(f"{name}", status=status.HTTP_200_OK)
