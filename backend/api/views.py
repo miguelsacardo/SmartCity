@@ -13,6 +13,9 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status, parsers
 
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 import pandas as pd
 from tablib import Dataset
 
@@ -23,11 +26,8 @@ class UserRegistrationView(ListCreateAPIView):
     # checks which serializer will be used based on the http method -> improve api security
     def get_serializer_class(self):
         
-        if self.request.method == 'GET':
-            return UserDetailSerializer
-        
-        elif self.request.method == 'POST':
-            return UserRegisterSerializer
+        if self.request.method == 'GET': return UserDetailSerializer
+        elif self.request.method == 'POST': return UserRegisterSerializer
 
 class ImportData(APIView):
     parser_classes = [parsers.MultiPartParser]
@@ -129,22 +129,12 @@ class ListPagedView(ListAPIView):
     
     def get_queryset(self):
         type = self.request.query_params.get("type")
-        
-        match type:
-            case "historico": return Historico.objects.all()
-            case "sensor": return Sensor.objects.all()
-            case "ambiente": return Ambiente.objects.all()
-            case _: raise Http404({"detail":"tipo de consulta não encontrado."})
+        return check_type_queryset(type)
 
     def get_serializer_class(self):
         type = self.request.query_params.get("type")
-
-        match type:
-            case "historico": return HistoricoSerializer
-            case "sensor": return SensorSerializer
-            case "ambiente": return AmbienteSerializer
-            case _: raise Http404({"detail":"tipo de serializer não encontrado."})
-
+        return check_type_serializer(type)
+        
     pagination_class = StandardResultsPagination
 
     def list(self, request, *args, **kwargs):
@@ -159,3 +149,24 @@ class ListPagedView(ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
+# filter -> mac_address sensor, type sensor, date(timestamp) historico, id historico, sig ambiente
+class FilterView(ListAPIView):
+    pass
+
+
+
+
+# functions to sepaate the logic of check "type"
+def check_type_queryset(type):
+    match type:
+            case "historico": return Historico.objects.all()
+            case "sensor": return Sensor.objects.all()
+            case "ambiente": return Ambiente.objects.all()
+            case _: raise Http404({"detail":"tipo de queryset não encontrado."})
+        
+def check_type_serializer(type):
+    match type:
+            case "historico": return HistoricoSerializer
+            case "sensor": return SensorSerializer
+            case "ambiente": return AmbienteSerializer
+            case _: raise Http404({"detail":"tipo de serializer não encontrado."})
