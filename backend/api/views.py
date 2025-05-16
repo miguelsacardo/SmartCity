@@ -149,11 +149,26 @@ class ListPagedView(ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
-# filter -> mac_address sensor, type sensor, date(timestamp) historico, id historico, sig ambiente
-class FilterView(ListAPIView):
-    pass
+# filter ambiente -> sig    
+class FilterAmbienteView(ListAPIView):
+    queryset = Ambiente.objects.all()
+    serializer_class = AmbienteSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['sig']
 
+# filter sensor -> mac_address and sensor type
+class FilterSensorView(ListAPIView):
+    queryset = Sensor.objects.all()
+    serializer_class = SensorSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['mac_address', 'sensor']
 
+# filter historico -> id and timestamp
+class FilterHistoricoView(ListAPIView):
+    queryset = Historico.objects.all()
+    serializer_class = HistoricoSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['id', 'timestamp'] 
 
 
 # functions to sepaate the logic of check "type"
