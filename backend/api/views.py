@@ -160,15 +160,29 @@ class FilterAmbienteView(ListAPIView):
 class FilterSensorView(ListAPIView):
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
-    search_fields = ['mac_address', 'sensor']
+    pagination_class = StandardResultsPagination
 
-# filter historico -> id and timestamp
-class FilterHistoricoView(ListAPIView):
-    queryset = Historico.objects.all()
-    serializer_class = HistoricoSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    search_fields = ['id', 'timestamp'] 
+    search_fields = ['mac_address', 'sensor', 'status']
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+# filter historico -> double filter (timestamp, type sensor)
+class FilterHistoricoView(ListAPIView):
+    def get_queryset(self):
+        query_timestamp = self.request.query_params.get("timestamp")
+        query_sensor = self.request.query_params.get("sensor")
+        queryset = Historico.objects.filter(timestamp = query_timestamp).filter(sensor__sensor = query_sensor)    
+        return queryset
+    serializer_class = HistoricoSerializer
 
 
 # functions to sepaate the logic of check "type"

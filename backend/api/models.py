@@ -43,4 +43,5 @@ class Historico(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     valor = models.FloatField()
     timestamp = models.DateTimeField()
+    # todo -> date and time separed
 
