@@ -20,14 +20,8 @@ import pandas as pd
 from tablib import Dataset
 
 class UserRegistrationView(ListCreateAPIView):
-
     queryset = User.objects.all()
-
-    # checks which serializer will be used based on the http method -> improve api security
-    def get_serializer_class(self):
-        
-        if self.request.method == 'GET': return UserDetailSerializer
-        elif self.request.method == 'POST': return UserRegisterSerializer
+    serializer_class = UserRegisterSerializer
 
 class ImportData(APIView):
     parser_classes = [parsers.MultiPartParser]
@@ -59,7 +53,7 @@ class ImportData(APIView):
         dataset = Dataset().load(df)
 
         # simulates an import, but does not save data to the database yet
-        result = request_resource.import_data(dataset, dry_run=True, raise_errors=False)
+        result = request_resource.import_data(dataset, dry_run=True, raise_errors=True)
 
         if not result.has_errors():
             result = request_resource.import_data(dataset, dry_run=False)
@@ -175,12 +169,22 @@ class FilterSensorView(ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
-# filter historico -> double filter (timestamp, type sensor)
+# filter historico -> double filter (date, type sensor)
 class FilterHistoricoView(ListAPIView):
     def get_queryset(self):
-        query_timestamp = self.request.query_params.get("timestamp")
+        query_data = self.request.query_params.get("data")
         query_sensor = self.request.query_params.get("sensor")
-        queryset = Historico.objects.filter(timestamp = query_timestamp).filter(sensor__sensor = query_sensor)    
+        queryset = Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor)    
+        return queryset
+    serializer_class = HistoricoSerializer
+
+# filter historico -> triple filter (date, type sensor, hour)
+class TripleFilterHistoricoView(ListAPIView):
+    def get_queryset(self):
+        query_data = self.request.query_params.get("data")
+        query_sensor = self.request.query_params.get("sensor")
+        query_time = self.request.query_params.get("horario")
+        queryset = Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor).filter(timestamp__time = query_time)
         return queryset
     serializer_class = HistoricoSerializer
 

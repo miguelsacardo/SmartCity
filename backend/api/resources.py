@@ -1,5 +1,5 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget
+from import_export.widgets import ForeignKeyWidget, TimeWidget
 from .models import *
 
 class AmbienteResource(resources.ModelResource):
@@ -28,6 +28,7 @@ class HistoricoResource(resources.ModelResource):
         attribute='sensor',
         widget=ForeignKeyWidget(Sensor, 'mac_address')
     )
+
     class Meta:
         model = Historico
         import_id_fields = ['id']

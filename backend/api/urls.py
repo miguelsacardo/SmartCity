@@ -29,6 +29,7 @@ urlpatterns = [
 
     # historico view
     path("historico/", FilterHistoricoView.as_view()),
+    path("historico/filtro-triplo/", TripleFilterHistoricoView.as_view()),
     path("historico/<int:pk>", HistoricoView.as_view()),
 
     # list ambiente, historico and ambientes

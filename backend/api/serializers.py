@@ -14,11 +14,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_superuser(**validated_data)
         return user
 
-class UserDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email']
-
 # ambiente serializer
 class AmbienteSerializer(serializers.ModelSerializer):
     class Meta:
