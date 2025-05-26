@@ -12,7 +12,7 @@ export function Login(e) {
         e.preventDefault();
         await authUser(username, password);
         const token = localStorage.getItem('token');
-        if(!token) return window.alert("O login falhou. Por favor tente novamente.");
+        if(!token) return window.alert("O login falhou. Verifique as credênciais e tente novamente.");
         
     }
   return (

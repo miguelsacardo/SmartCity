@@ -3,6 +3,7 @@ import { Register } from "../pages/register/register.jsx";
 import { Login } from "../pages/login/login.jsx";
 import { FooterComplete } from "../components/footer_complete.jsx";
 import { Inicial } from "../pages/inicial.jsx";
+import { Home } from "../pages/home/home.jsx";
 
 export function Rotas(){
     return(
@@ -11,7 +12,7 @@ export function Rotas(){
             <Route path='/login' element={<Login/>}/>
 
             <Route path="/app" element={<Inicial/>}>
-
+                <Route index element={<Home/>} />
             </Route>
         </Routes>
     )

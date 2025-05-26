@@ -9,7 +9,7 @@ export function FooterComplete() {
       {/* links das redes sociais da empresa. O unico que funciona de verdade e o do github */}
       <div className="flex items-center justify-between w-full bg-[#5E4AE3] pt-[0.813rem] pb-[0.813rem] pl-[2.813rem] pr-[2.813rem]">
         <p className="text-xl">Nossas redes sociais:</p>
-        <nav className="flex text-4xl gap-x-[1.25rem]">
+        <nav className="flex flex-wrap text-4xl gap-x-[1.25rem]">
           <a href="https://www.facebook.com/">
             <FaFacebook />
           </a>
@@ -25,7 +25,7 @@ export function FooterComplete() {
         </nav>
       </div>
 
-      <div className="flex pt-[1.5rem] pl-[5rem] pr-[5rem] pb-[3rem] justify-between bg-[#392161] w-full text-justify text-[#B0FE76]">
+      <div className="flex flex-wrap pt-[1.5rem] pl-[5rem] pr-[5rem] pb-[3rem] justify-between bg-[#392161] w-full text-justify text-[#B0FE76]">
         {/* pequeno texto introdutorio da empresa junto com sua logo */}
         <div className="w-xs">
           <div className="w-sm">

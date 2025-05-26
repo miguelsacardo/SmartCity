@@ -16,8 +16,11 @@ export async function authUser(username, password){
 
         const token = response.data.access;
         localStorage.setItem('token', token);
+        console.log(token);
         return token;
     } catch (error) {
-        console.error(error);
+        if(error.response.data.detail.includes("No active account found with the given credentials")){
+            window.alert("Ocorreu um erro ao fazer login. Verifique se o usuário informado existe!");
+        }
     }
 }
