@@ -22,6 +22,7 @@ from tablib import Dataset
 class UserRegistrationView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
+        
 
 class ImportData(APIView):
     parser_classes = [parsers.MultiPartParser]

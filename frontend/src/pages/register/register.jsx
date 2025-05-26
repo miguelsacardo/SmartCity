@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FooterBasic } from "../../components/footer_basic/footer_basic";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 export function Register() {
@@ -12,6 +12,9 @@ export function Register() {
   const userRegister = async (e) => {
 
     e.preventDefault();
+
+    // garante que o usuario preencha o formulario corretamente
+    if(!username || !email || !password) return window.alert("Por favor, preencha todos os campos.");
 
     // evita caracteres especiais
     username.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
@@ -26,9 +29,14 @@ export function Register() {
         password: password,
       });
 
- 
+      window.alert("Usuario registrado com sucesso!");
+
     } catch (error) {
-      console.log(error);
+      if(error.response && error.response.data.username) {
+        window.alert("Um usuario com esse nome ja existe!");
+      }else{
+        window.alert("Ocorreu um erro ao cadastrar usuario. Verifique as credenciais e prossiga.");
+      }
     }
   };
 
@@ -60,7 +68,7 @@ export function Register() {
 
               <div className="flex flex-col gap-y-[1.563rem] mt-[1.563rem] items-center">
                 <div>
-                  <label htmlFor="input-username">Nome de usuário</label>
+                  <label htmlFor="input-username">Nome de usuário:</label>
                   <input
                     value={username}
                     onChange={(e) => {
@@ -70,8 +78,9 @@ export function Register() {
                     id="input-username"
                     placeholder="Crie seu nome de usuário (ex: seunome123)"
                     className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-lg w-md h-[3.125rem] pl-[0.938rem]"
+                    required
                   />
-                  <small>*Não use espaços em seu nome de usuário e caracteres especiais serão removidos!</small>
+                  <small>*Não use espaços em seu nome de usuário e utilize apenas numeros ou letras!</small>
                 </div>
 
                 <div>
@@ -85,6 +94,7 @@ export function Register() {
                     id="input-email"
                     placeholder="Email (ex: seunome@domínio.com)"
                     className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-lg w-md h-[3.125rem] pl-[0.938rem]"
+                    required
                   />
                 </div>
 
@@ -99,6 +109,7 @@ export function Register() {
                     id="input-password"
                     placeholder="Senha"
                     className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-lg w-md h-[3.125rem] pl-[0.938rem]"
+                    required
                   />
                 </div>
 
@@ -112,7 +123,7 @@ export function Register() {
                 <h4>
                   Já possui cadastro?{" "}
                   <span className="text-[#5E4AE3]">
-                    Clique aqui para fazer login!
+                    <Link to="/login">Clique aqui para fazer login!</Link>
                   </span>
                 </h4>
               </div>
