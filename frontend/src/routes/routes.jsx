@@ -1,18 +1,29 @@
 import { Routes, Route } from "react-router-dom";
 import { Register } from "../pages/register/register.jsx";
 import { Login } from "../pages/login/login.jsx";
-import { FooterComplete } from "../components/footer_complete.jsx";
 import { Inicial } from "../pages/inicial.jsx";
-import { Home } from "../pages/home/home.jsx";
+import { Gerenciamento } from "../pages/gerenciamento.jsx";
+import React, { lazy, Suspense } from "react";
+import { ListSensor } from "../components/sensores/list.jsx";
 
 export function Rotas(){
+
+    const Home = lazy(() => import('../pages/home/home.jsx'));
+
     return(
         <Routes>
             <Route path='/' element={<Register/>}/>
             <Route path='/login' element={<Login/>}/>
 
             <Route path="/app" element={<Inicial/>}>
-                <Route index element={<Home/>} />
+                <Route index element={
+                    <Suspense fallback={<div>Carregando...</div>}>
+                        <Home/>
+                    </Suspense>
+                    } />
+
+                    <Route path="gerenciamento" element={<Gerenciamento />}/>
+                    <Route path="teste" element={<ListSensor/>} />
             </Route>
         </Routes>
     )

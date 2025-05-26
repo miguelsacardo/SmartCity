@@ -5,7 +5,7 @@ export function Header() {
           <a href="">
             <img
               src="/logo_header.png"
-              alt="logo do site contendo 4 bordas formando um quadrado cercando um sensor com um desenho de sinal do wifi. Você pode clicar aqui para voltar para a página inicial do site!"
+              alt="Logo da Smart City sem texto"
               className="w-full"
             />
           </a>

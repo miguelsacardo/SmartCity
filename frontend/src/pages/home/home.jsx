@@ -1,6 +1,8 @@
-export function Home(){
-    return(
+import { Link } from "react-router-dom";
 
+export default function Home(){
+    return(
+        
         // o conteudo principal dessa página contem primeiramente uma breve apresentação da empresa
         // e logo depois há o botão que direciona ao gerenciamento de sensores
         // no fim, há a parte "nossos sensores", que apresentam uma breve informação sobre os sensores da empresa
@@ -42,7 +44,7 @@ export function Home(){
                     </p>
 
                     <button className="bg-[#B0FE76] text-[#5E4AE3] text-2xl w-150 rounded-md pt-2 pb-2 mt-5">
-                        Faça a mágica acontecer!
+                        <Link to="gerenciamento">Faça a mágica acontecer!</Link>
                     </button>
                 </div>
             </section>
