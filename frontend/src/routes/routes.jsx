@@ -9,6 +9,8 @@ export function Rotas(){
 
     const Home = lazy(() => import('../pages/home/home.jsx'));
     const SensorContent = lazy(() => import('../pages/sensores/sensor.jsx'));
+    const HistoricoContent = lazy(() => import('../pages/historico/historico.jsx'));
+    const AmbienteContent = lazy(() => import('../pages/ambiente/ambiente.jsx'));
 
     return(
         <Routes>
@@ -26,6 +28,18 @@ export function Rotas(){
                         <Route index element={
                             <Suspense fallback={<div>Carregando...</div>}>
                                 <SensorContent />
+                            </Suspense>
+                        }/>
+
+                        <Route path="historico" element={
+                            <Suspense fallback={<div>Carregando...</div>}>
+                                <HistoricoContent />
+                            </Suspense>
+                        }/>
+
+                        <Route path="ambiente" element={
+                            <Suspense fallback={<div>Carregando...</div>}>
+                                <AmbienteContent />
                             </Suspense>
                         }/>
                     </Route>

@@ -2,33 +2,75 @@ import { useEffect, useState } from "react";
 import { ListData } from "../../components/list_data/list";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import { IoMdSearch } from "react-icons/io";
-
+import axios from "axios";
+import { FilterActiveSensors } from "../../components/list_data/list_methods";
 
 export default function SensorContent() {
   const [paging, setPaging] = useState(1);
-  const [filter, setFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("-");
+  const [macFilter, setMacFilter] = useState("");
+  const [url, setUrl] = useState(`http://127.0.0.1:8000/api/list/?type=sensor&size=8&page=`);
+  const [data, setData] = useState([]);
 
-  useEffect(() =>{
-    
-  },[filter]);
+  console.log(url)
+  useEffect(() => {
+    axios
+      .get(url + `${paging}`)
+      .then((response) => {
+        setData(response.data.results);
+      })
+      .catch((error) => {
+        if (error.response) {
+          // passo o useState do arquivo sensor.jsx para conseguir alterar seu valor caso aconteca um erro na pagina
+          paging <= 0 ? setPaging(1) : setPaging(paging - 1);
+          return window.alert("Limite de paginas atingido!");
+        }
+      });
+  }, [paging, macFilter, typeFilter]);
+
+  const handleTypeFilter = (e) => {
+    const newTypeFilter = e.target.value;
+    setTypeFilter(newTypeFilter);
+    newTypeFilter == 'todos' ? setUrl(`http://127.0.0.1:8000/api/list/?type=sensor&size=8&page=`) :
+    newTypeFilter && setUrl(`http://127.0.0.1:8000/api/sensor/?search=${newTypeFilter}&size=8&page=`);
+    console.log(newTypeFilter);
+  };
+
+  const handleMacFilter = (e) => {
+    const newMacFilter = e.target.value;
+    setMacFilter(newMacFilter);
+    newMacFilter && setUrl(`http://127.0.0.1:8000/api/sensor/?search=${newMacFilter}&size=8&page=`)
+    console.log(newMacFilter);
+  };
 
   const handleNext = () => {
     setPaging(paging + 1);
   };
 
-  const handlePrevious = () =>{
-    setPaging(paging - 1)
-  }
+  const handlePrevious = () => {
+    setPaging(paging - 1);
+  };
   return (
     <div>
       <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
-
-         {/* filtro por mac address */}
+        {/* filtro por mac address */}
         <div className="flex flex-col">
-          <label htmlFor="filter-mac" className="text-xl">Filtro para mac-address</label>
+          <label htmlFor="filter-mac" className="text-xl">
+            Filtro para mac-address
+          </label>
           <div className="flex items-center justify-end">
-            <IoMdSearch  className="text-[#B0FE76] text-4xl absolute mr-3" alt="Icone de lupa"/>
-            <input id="filter-mac" type="search" placeholder="Busque um mac-address..." className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"/>
+            <IoMdSearch
+              className="text-[#B0FE76] text-4xl absolute mr-3"
+              alt="Icone de lupa"
+            />
+            <input
+              value={macFilter}
+              onChange={(e) => handleMacFilter(e)}
+              id="filter-mac"
+              type="search"
+              placeholder="Busque um mac-address..."
+              className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"
+            />
           </div>
         </div>
 
@@ -36,24 +78,44 @@ export default function SensorContent() {
 
         {/* filtro por tipo */}
         <div className="flex flex-col">
-          <label htmlFor="filter-sensor" className="text-xl">Filtro para tipo</label>
-          <select name="" id="filter-sensor" className="bg-[#392161] text-[#B0FE76] rounded-md w-60 p-2">
-            <option value={null} disabled>Filtre por tipo de sensor...</option>
+          <label htmlFor="filter-sensor" className="text-xl">
+            Filtro para tipo
+          </label>
+          <select
+            name=""
+            id="filter-sensor"
+            className="bg-[#392161] text-[#B0FE76] rounded-md w-60 p-2"
+            value={typeFilter}
+            onChange={(e) => handleTypeFilter(e)}
+          >
+            <option value="-" disabled>
+              Filtre por tipo de sensor...
+            </option>
             <option value="temperatura">Temperatura</option>
             <option value="luminosidade">Luminosidade</option>
             <option value="umidade">Umidade</option>
-            <option value="contagem">Contagem</option>
+            <option value="contador">Contagem</option>
             <option value="inativo">Inativo</option>
+            <option value="todos">Todos os sensores</option>
           </select>
         </div>
-
       </div>
-      <ListData pageNumber={paging} type="sensor" setPaging={setPaging}/>
+      <ListData data={data} type="sensor" />
 
       <div className="flex justify-center mt-15 gap-x-5 text-4xl mb-15">
-        <button onClick={handlePrevious} aria-label="Trazer dados da paginacao anterior"><GrLinkPrevious alt="Seta apontando para a esquerda"/></button>
+        <button
+          onClick={handlePrevious}
+          aria-label="Trazer dados da paginacao anterior"
+        >
+          <GrLinkPrevious alt="Seta apontando para a esquerda" />
+        </button>
         <h2>{paging}</h2>
-        <button onClick={handleNext} aria-label="Trazer dados da paginacao seguinte"><GrLinkNext alt="Seta apontando para a direita"/></button>
+        <button
+          onClick={handleNext}
+          aria-label="Trazer dados da paginacao seguinte"
+        >
+          <GrLinkNext alt="Seta apontando para a direita" />
+        </button>
       </div>
     </div>
   );
