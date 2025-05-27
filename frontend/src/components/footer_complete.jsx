@@ -10,17 +10,17 @@ export function FooterComplete() {
       <div className="flex items-center justify-between w-full bg-[#5E4AE3] pt-[0.813rem] pb-[0.813rem] pl-[2.813rem] pr-[2.813rem]">
         <p className="text-xl">Nossas redes sociais:</p>
         <nav className="flex flex-wrap text-4xl gap-x-[1.25rem]">
-          <a href="https://www.facebook.com/">
-            <FaFacebook />
+          <a href="https://www.facebook.com/" aria-label="Link de direcionamento para o Facebook">
+            <FaFacebook alt="Icone da logo do facebook"/>
           </a>
-          <a href="https://github.com/miguelsacardo/">
-            <FaGithub />
+          <a href="https://github.com/miguelsacardo/" aria-label="Link de direcionamento para o Github">
+            <FaGithub alt="Icone da logo do github"/>
           </a>
-          <a href="https://br.linkedin.com/">
-            <FaLinkedin />
+          <a href="https://br.linkedin.com/" aria-label="Link de direcionamento para o Linkedin">
+            <FaLinkedin alt="Icone da logo do linkedin"/>
           </a>
-          <a href="">
-            <FaRegMessage />
+          <a href="" aria-label="Link de direcionamento para mensangem">
+            <FaRegMessage alt="Icone de mensagem"/>
           </a>
         </nav>
       </div>

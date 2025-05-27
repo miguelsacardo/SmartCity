@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 export function Navigation(){
     return(
         <nav className="flex flex-col items-center mt-15">
             <div className="flex flex-wrap gap-x-35 text-[#F1F2F6] font-['Poppins'] text-2xl ">
                 <button className="bg-[#5E4AE3] rounded-md h-15 w-50">
-                    SENSORES
+                    <Link to="/app/gerenciamento">SENSORES</Link>
                 </button>
                 <button className="bg-[#5E4AE3] rounded-md h-15 w-50">
                     HISTÓRICO

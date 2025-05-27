@@ -4,11 +4,11 @@ import { Login } from "../pages/login/login.jsx";
 import { Inicial } from "../pages/inicial.jsx";
 import { Gerenciamento } from "../pages/gerenciamento.jsx";
 import React, { lazy, Suspense } from "react";
-import { ListSensor } from "../components/sensores/list.jsx";
 
 export function Rotas(){
 
     const Home = lazy(() => import('../pages/home/home.jsx'));
+    const SensorContent = lazy(() => import('../pages/sensores/sensor.jsx'));
 
     return(
         <Routes>
@@ -22,8 +22,13 @@ export function Rotas(){
                     </Suspense>
                     } />
 
-                    <Route path="gerenciamento" element={<Gerenciamento />}/>
-                    <Route path="teste" element={<ListSensor/>} />
+                    <Route path="gerenciamento" element={<Gerenciamento />}>
+                        <Route index element={
+                            <Suspense fallback={<div>Carregando...</div>}>
+                                <SensorContent />
+                            </Suspense>
+                        }/>
+                    </Route>
             </Route>
         </Routes>
     )
