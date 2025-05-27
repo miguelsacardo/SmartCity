@@ -26,7 +26,7 @@ export function ListData({ pageNumber, type, setPaging }) {
   }, [pageNumber]);
 
   return (
-    <section className="flex flex-wrap max-w-[1440px] justify-center gap-x-10 gap-y-10">
+    <section className="flex flex-wrap justify-center gap-x-10 gap-y-10">
       {data.map((data) => (
         // div que representa o card como um todo
         <div className="bg-[#5E4AE3] font-['Poppins'] w-115 text-center h-auto text-2xl rounded-md pb-5" key={data.id}>

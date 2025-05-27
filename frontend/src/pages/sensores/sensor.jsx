@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ListData } from "../../components/list_data/list";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
+import { IoMdSearch } from "react-icons/io";
 
 
 export default function SensorContent() {
   const [paging, setPaging] = useState(1);
+  const [filter, setFilter] = useState("");
+
+  useEffect(() =>{
+    
+  },[filter]);
 
   const handleNext = () => {
     setPaging(paging + 1);
@@ -15,6 +21,33 @@ export default function SensorContent() {
   }
   return (
     <div>
+      <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
+
+         {/* filtro por mac address */}
+        <div className="flex flex-col">
+          <label htmlFor="filter-mac" className="text-xl">Filtro para mac-address</label>
+          <div className="flex items-center justify-end">
+            <IoMdSearch  className="text-[#B0FE76] text-4xl absolute mr-3" alt="Icone de lupa"/>
+            <input id="filter-mac" type="search" placeholder="Busque um mac-address..." className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"/>
+          </div>
+        </div>
+
+        <h1 className="text-5xl">SENSORES</h1>
+
+        {/* filtro por tipo */}
+        <div className="flex flex-col">
+          <label htmlFor="filter-sensor" className="text-xl">Filtro para tipo</label>
+          <select name="" id="filter-sensor" className="bg-[#392161] text-[#B0FE76] rounded-md w-60 p-2">
+            <option value={null} disabled>Filtre por tipo de sensor...</option>
+            <option value="temperatura">Temperatura</option>
+            <option value="luminosidade">Luminosidade</option>
+            <option value="umidade">Umidade</option>
+            <option value="contagem">Contagem</option>
+            <option value="inativo">Inativo</option>
+          </select>
+        </div>
+
+      </div>
       <ListData pageNumber={paging} type="sensor" setPaging={setPaging}/>
 
       <div className="flex justify-center mt-15 gap-x-5 text-4xl mb-15">

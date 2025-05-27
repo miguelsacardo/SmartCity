@@ -169,26 +169,18 @@ class FilterSensorView(ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
-# filter historico -> double filter (date, type sensor)
+
+# filter historico -> triple filter (date, type sensor, hour)
 class FilterHistoricoView(ListAPIView):
     def get_queryset(self):
         query_data = self.request.query_params.get("data")
         query_sensor = self.request.query_params.get("sensor")
-        queryset = Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor)    
-        return queryset
-    serializer_class = HistoricoSerializer
-
-# filter historico -> triple filter (date, type sensor, hour)
-class TripleFilterHistoricoView(ListAPIView):
-    def get_queryset(self):
-        query_data = self.request.query_params.get("data")
-        query_sensor = self.request.query_params.get("sensor")
         query_time = self.request.query_params.get("horario")
-        queryset = Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor).filter(timestamp__time = query_time)
-        return queryset
-    serializer_class = HistoricoSerializer
 
+        if not query_time:
+            return Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor)
+        return  Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor).filter(timestamp__time = query_time)
+    serializer_class = HistoricoSerializer
 
 # functions to sepaate the logic of check "type"
 def check_type_queryset(type):
