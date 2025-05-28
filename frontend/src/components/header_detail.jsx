@@ -1,4 +1,5 @@
 import { GrLinkPrevious } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 export function HeaderDetail({ title, type, id }) {
   return (
@@ -8,7 +9,7 @@ export function HeaderDetail({ title, type, id }) {
           <div className="flex flex-col items-center font-['Poppins'] mt-15">
             <div className="flex items-center gap-x-30">
               <button className="bg-[#392161] text-[#F1F2F6] text-5xl rounded-md p-3">
-                <GrLinkPrevious />
+                <Link to={-1}><GrLinkPrevious /></Link>
               </button>
               <h1 className="text-6xl text-[#5E4AE3]">Sensor {title}</h1>
             </div>
@@ -22,7 +23,7 @@ export function HeaderDetail({ title, type, id }) {
           <div className="flex flex-col items-center font-['Poppins'] mt-15">
             <div className="flex items-center gap-x-30">
               <button className="bg-[#392161] text-[#F1F2F6] text-5xl rounded-md p-3">
-                <GrLinkPrevious />
+                <Link to={-1}><GrLinkPrevious /></Link>
               </button>
               <h1 className="text-6xl text-[#5E4AE3]">Sensor {title}</h1>
             </div>

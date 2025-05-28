@@ -28,6 +28,7 @@ export default function SensorContent() {
 
   const handleTypeFilter = (e) => {
     const newTypeFilter = e.target.value;
+    setPaging(1)
     setTypeFilter(newTypeFilter);
     newTypeFilter == 'todos' ? setUrl(`http://127.0.0.1:8000/api/list/?type=sensor&size=8&page=`) :
     newTypeFilter && setUrl(`http://127.0.0.1:8000/api/sensor/?search=${newTypeFilter}&size=8&page=`);
@@ -36,8 +37,10 @@ export default function SensorContent() {
 
   const handleMacFilter = (e) => {
     const newMacFilter = e.target.value;
+    setPaging(1)
     setMacFilter(newMacFilter);
-    newMacFilter && setUrl(`http://127.0.0.1:8000/api/sensor/?search=${newMacFilter}&size=8&page=`)
+    newMacFilter ? setUrl(`http://127.0.0.1:8000/api/sensor/?search=${newMacFilter}&size=8&page=`) :
+    setUrl(`http://127.0.0.1:8000/api/list/?type=sensor&size=8&page=`)
     console.log(newMacFilter);
   };
 
@@ -53,9 +56,11 @@ export default function SensorContent() {
       <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
         {/* filtro por mac address */}
         <div className="flex flex-col">
+          
           <label htmlFor="filter-mac" className="text-xl">
             Filtro para mac-address
           </label>
+          
           <div className="flex items-center justify-end">
             <IoMdSearch
               className="text-[#B0FE76] text-4xl absolute mr-3"
@@ -71,7 +76,7 @@ export default function SensorContent() {
             />
           </div>
         </div>
-
+        
         <h1 className="text-5xl">SENSORES</h1>
 
         {/* filtro por tipo */}
@@ -98,6 +103,7 @@ export default function SensorContent() {
           </select>
         </div>
       </div>
+      
       <ListData data={data} type="sensor" />
 
       <div className="flex justify-center mt-15 gap-x-5 text-4xl mb-15">

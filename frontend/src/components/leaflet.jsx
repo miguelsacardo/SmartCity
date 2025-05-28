@@ -9,7 +9,8 @@ export function LeafletMapSensor({ lat, long }) {
         />
         <Marker position={[lat, long]}>
           <Popup>
-            Aqui esta seu sensor!
+            Aqui esta seu sensor!<br/>
+            Lembre-se que a localização não é 100% precisa.
           </Popup>
         </Marker>
       </MapContainer>

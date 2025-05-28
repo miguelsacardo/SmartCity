@@ -30,6 +30,7 @@ urlpatterns = [
     # historico view
     path("historico/", FilterHistoricoView.as_view()),
     path("historico/<int:pk>", HistoricoView.as_view()),
+    path("sensor-historico/", GetHistoricoFromSensor.as_view()),
 
     # list ambiente, historico and ambientes
     path("list/", ListPagedView.as_view()),

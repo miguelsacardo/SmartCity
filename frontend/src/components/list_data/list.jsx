@@ -30,7 +30,7 @@ export function ListData({ data, type }) {
                 <DataContent title="Tipo de sensor" value={item.sensor} />
 
                 <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-3xl w-100 h-15">
-                  <Link to="/app/dados" state={{ from: item }}>VER DADOS</Link>
+                  <Link to="/app/sensor" state={{ from: item }}>VER DADOS</Link>
                 </button> 
               </div>
             )}
@@ -43,7 +43,7 @@ export function ListData({ data, type }) {
                 <DataContent title="Data e hora" value={FormatDate(item.timestamp)}/>
 
                 <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-3xl w-100 h-15">
-                  VER GRAFICO COMPLETO
+                  <Link to="/app/historico" state={{ mac_address: item.sensor, id_historico: item.id }}>VER GRAFICO COMPLETO</Link>
                 </button> 
               </div>
             )}

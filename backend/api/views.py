@@ -105,7 +105,7 @@ class SensorView(RetrieveDestroyAPIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# responsible to patch and destroy sensors
+# responsible to patch and destroy historico
 class HistoricoView(RetrieveDestroyAPIView):
     queryset = Historico.objects.all()
     serializer_class = HistoricoSerializer
@@ -118,6 +118,12 @@ class HistoricoView(RetrieveDestroyAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetHistoricoFromSensor(ListAPIView):
+    def get_queryset(self):
+        return Historico.objects.filter(sensor__mac_address = self.request.query_params.get("sensor"))
+    serializer_class = HistoricoSerializer
+    
 
 # makes lists of historico, sensor and ambiente depending on the query parameter 
 class ListPagedView(ListAPIView):
