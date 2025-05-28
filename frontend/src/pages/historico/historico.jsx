@@ -1,11 +1,29 @@
 import { useEffect, useState } from "react";
 import { ListData } from "../../components/list_data/list";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
+import axios from "axios";
 import { IoMdSearch } from "react-icons/io";
 
 
 export default function HistoricoContent() {
   const [paging, setPaging] = useState(1);
+  const [data, setData] = useState([]);
+  const [url, setUrl] = useState(`http://127.0.0.1:8000/api/list/?type=historico&size=8&page=`);
+
+  useEffect(() => {
+    axios
+      .get(url + `${paging}`)
+      .then((response) => {
+        setData(response.data.results);
+      })
+      .catch((error) => {
+        if (error.response) {
+          // passo o useState do arquivo sensor.jsx para conseguir alterar seu valor caso aconteca um erro na pagina
+          paging <= 0 ? setPaging(1) : setPaging(paging - 1);
+          return window.alert("Limite de paginas atingido!");
+        }
+      });
+  }, [paging]);
 
   const handleNext = () => {
     setPaging(paging + 1);
@@ -43,7 +61,7 @@ export default function HistoricoContent() {
         </div> */}
 
       </div>
-      <ListData pageNumber={paging} type="historico" setPaging={setPaging}/>
+      <ListData data={data} type="historico"/>
 
       <div className="flex justify-center mt-15 gap-x-5 text-4xl mb-15">
         <button onClick={handlePrevious} aria-label="Trazer dados da paginacao anterior"><GrLinkPrevious alt="Seta apontando para a esquerda"/></button>

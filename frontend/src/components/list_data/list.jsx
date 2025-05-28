@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { DataContent } from "./data_content";
 import { FormatDate } from "./list_methods";
+import { Link } from "react-router-dom";
 
 export function ListData({ data, type }) {
 
@@ -29,7 +30,7 @@ export function ListData({ data, type }) {
                 <DataContent title="Tipo de sensor" value={item.sensor} />
 
                 <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-3xl w-100 h-15">
-                  VER DADOS
+                  <Link to="/app/dados" state={{ from: item }}>VER DADOS</Link>
                 </button> 
               </div>
             )}

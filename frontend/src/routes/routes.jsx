@@ -4,6 +4,7 @@ import { Login } from "../pages/login/login.jsx";
 import { Inicial } from "../pages/inicial.jsx";
 import { Gerenciamento } from "../pages/gerenciamento.jsx";
 import React, { lazy, Suspense } from "react";
+import { LeafletMapSensor } from "../components/leaflet.jsx";
 
 export function Rotas(){
 
@@ -11,6 +12,7 @@ export function Rotas(){
     const SensorContent = lazy(() => import('../pages/sensores/sensor.jsx'));
     const HistoricoContent = lazy(() => import('../pages/historico/historico.jsx'));
     const AmbienteContent = lazy(() => import('../pages/ambiente/ambiente.jsx'));
+    const SensorDetail = lazy(() => import('../pages/sensores/sensorDetail.jsx'));
 
     return(
         <Routes>
@@ -43,7 +45,16 @@ export function Rotas(){
                             </Suspense>
                         }/>
                     </Route>
+
+                    <Route path="dados" element={
+                        <Suspense fallback={<div>Carregando...</div>}>
+                            <SensorDetail />
+                        </Suspense>
+                    }/>
+
+                    <Route path="teste" element={<LeafletMapSensor />}/>
             </Route>
+            
         </Routes>
     )
 }

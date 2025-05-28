@@ -1,13 +1,38 @@
-import { Link } from "react-router"
+import { GrLinkPrevious } from "react-icons/gr";
 
-export function HeaderDetail({ title , type }){
-    {
-        type === "sensor" &&(
-            <div>
-                <Link>
-                    
-                </Link>
+export function HeaderDetail({ title, type, id }) {
+  return (
+    <div>
+      {type === "sensor" && (
+        <>
+          <div className="flex flex-col items-center font-['Poppins'] mt-15">
+            <div className="flex items-center gap-x-30">
+              <button className="bg-[#392161] text-[#F1F2F6] text-5xl rounded-md p-3">
+                <GrLinkPrevious />
+              </button>
+              <h1 className="text-6xl text-[#5E4AE3]">Sensor {title}</h1>
             </div>
-        )
-    }
+            <div className="border w-[50%] mt-10" />
+          </div>
+        </>
+      )}
+
+      {type === "historico" && (
+        <>
+          <div className="flex flex-col items-center font-['Poppins'] mt-15">
+            <div className="flex items-center gap-x-30">
+              <button className="bg-[#392161] text-[#F1F2F6] text-5xl rounded-md p-3">
+                <GrLinkPrevious />
+              </button>
+              <h1 className="text-6xl text-[#5E4AE3]">Sensor {title}</h1>
+            </div>
+            <div>
+                <h2 className="text-3xl">ID do registro no historico: <span className="text-[#5E4AE3]">{id}</span></h2>
+            </div>
+            <div className="border w-[50%] mt-8" />
+          </div>
+        </>
+      )}
+    </div>
+  );
 }

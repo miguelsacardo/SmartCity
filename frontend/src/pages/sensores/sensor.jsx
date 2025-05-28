@@ -3,7 +3,6 @@ import { ListData } from "../../components/list_data/list";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import { IoMdSearch } from "react-icons/io";
 import axios from "axios";
-import { FilterActiveSensors } from "../../components/list_data/list_methods";
 
 export default function SensorContent() {
   const [paging, setPaging] = useState(1);
@@ -12,7 +11,6 @@ export default function SensorContent() {
   const [url, setUrl] = useState(`http://127.0.0.1:8000/api/list/?type=sensor&size=8&page=`);
   const [data, setData] = useState([]);
 
-  console.log(url)
   useEffect(() => {
     axios
       .get(url + `${paging}`)
