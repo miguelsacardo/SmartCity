@@ -4,7 +4,6 @@ import { Login } from "../pages/login/login.jsx";
 import { Inicial } from "../pages/inicial.jsx";
 import { Gerenciamento } from "../pages/gerenciamento.jsx";
 import React, { lazy, Suspense } from "react";
-import { Graphic } from "../components/graphic.jsx";
 
 export function Rotas(){
 
@@ -62,9 +61,6 @@ export function Rotas(){
 
                     </Route>
 
-                    <Route path="teste"
-                        element={<Graphic />}
-                    />
 
             </Route>
             
