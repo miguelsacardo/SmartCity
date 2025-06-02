@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-
 import { DataContent } from "./data_content";
 import { FormatDate } from "./list_methods";
 import { Link } from "react-router-dom";
+import { ModalContext } from "../modal/modalContext";
+import { useContext } from "react";
 
 export function ListData({ data, type }) {
+
+  const { handleModal } = useContext(ModalContext);
 
   return (
     <section className="flex flex-wrap justify-center gap-x-10 gap-y-10">
@@ -56,7 +58,9 @@ export function ListData({ data, type }) {
                 <DataContent title="Responsavel" value={item.responsavel} />
 
                 <div className="flex justify-center gap-x-10">
-                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10">
+                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10"
+                    onClick={() => handleModal(JSON.stringify(item), "ambiente")}
+                  >
                     EDITAR
                   </button> 
                   <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10">

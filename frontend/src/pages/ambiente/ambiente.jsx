@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { ListData } from "../../components/list_data/list";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import axios from "axios";
 import { IoMdSearch } from "react-icons/io";
-
 
 export default function AmbienteContent() {
   const [paging, setPaging] = useState(1);
@@ -35,7 +34,6 @@ export default function AmbienteContent() {
   return (
     <div>
       <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
-
          {/* filtro por mac address
         <div className="flex flex-col">
           <label htmlFor="filter-mac" className="text-xl">Filtro para mac-address</label>

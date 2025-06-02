@@ -60,8 +60,6 @@ export function Rotas(){
                             }/>
 
                     </Route>
-
-
             </Route>
             
         </Routes>
