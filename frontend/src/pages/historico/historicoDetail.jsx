@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { HeaderDetail } from "../../components/header_detail";
 import { Graphic } from "../../components/graphic";
+import { deleteHistory } from "./historico";
 
 export default function HistoricoDetail() {
   const historico = useLocation();
   const { mac_address, id_historico } = historico.state;
   const [data, setData] = useState([]);
   const [sensor, setSensor] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -33,11 +35,21 @@ export default function HistoricoDetail() {
       });
   }, []);
 
+  const deleteMethod = async (id) =>{
+    if(window.confirm(`Tem certeza que deseja excluir o registro do histórico com id = ${id}?`)){
+      await deleteHistory(id);
+      window.alert("Histórico excluído com sucesso!")
+      navigate("/app/gerenciamento/historico")
+    }
+  }
+
   return (
     <>
       <HeaderDetail title={mac_address} type="historico" id={id_historico} />
       <section className="mt-10 mb-10">
         <article className="flex flex-col items-center">
+
+          {/* texto para introduzir o tema da página */}
           <div className="space-y-10">
             <h1 className="text-3xl">
               Veja o dashboard do sensor{" "}
@@ -48,6 +60,9 @@ export default function HistoricoDetail() {
               <Graphic HistoricoData={data} />
             </div>
           </div>
+
+          {/* aqui estao os dados do sensor que o histórico monitora
+          o sensor pode ter vários tipos (contagem, umidade...) e várias medidas ao mesmo tempo */}
           <div className="space-y-5 mt-10">
             <h2 className="text-3xl text-center">Dados do sensor</h2>
               <div className="flex gap-x-10">
@@ -57,7 +72,7 @@ export default function HistoricoDetail() {
                     <span>{sensor?.[0]?.status}</span>
                   </div>
                   {sensor.map((medida) => (
-                    <div className="space-x-3" key="1">
+                    <div className="space-x-3" key={medida.id}>
                       <span className="text-[#5E4AE3]">Medida:</span>
                       <span>{medida.unidade_medida}</span>
                   </div>
@@ -66,7 +81,7 @@ export default function HistoricoDetail() {
                 <div className="text-2xl space-y-3">
 
                   {sensor.map((tipo) =>(
-                    <div className="space-x-3" key="1">
+                    <div className="space-x-3" key={tipo.id}>
                       <span className="text-[#5E4AE3]">Tipo de sensor:</span>
                       <span>{tipo.sensor}</span>
                     </div>
@@ -77,6 +92,10 @@ export default function HistoricoDetail() {
                   </div>
                 </div>
               </div>
+          </div>
+
+          <div className="text-2xl mt-10">
+            <button className="rounded-md text-[#F1F2F6] bg-[#EF4444] w-50 p-1" onClick={() => deleteMethod(id_historico)}>Excluir registro</button>
           </div>
         </article>
       </section>
