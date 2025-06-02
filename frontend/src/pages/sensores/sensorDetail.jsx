@@ -1,8 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { HeaderDetail } from "../../components/header_detail";
 import { LeafletMapSensor } from "../../components/leaflet";
+import { ModalContext } from "../../components/modal/modalContext";
+import { useContext } from "react";
 
 export default function SensorDetail() {
+  const { handleModal } = useContext(ModalContext);
   const sensor = useLocation();
   const { from } = sensor.state;
   return (
@@ -40,7 +43,7 @@ export default function SensorDetail() {
             </div>
 
             <div className="flex flex-col items-start gap-y-5">
-                <button className="text-[#F1F2F6] rounded-md bg-[#7C3AED] w-50 p-1">Editar</button>
+                <button className="text-[#F1F2F6] rounded-md bg-[#7C3AED] w-50 p-1" onClick={() => handleModal(from, "sensor")}>Editar</button>
                 <button className="rounded-md bg-[#FBBF24] w-50 p-1">{from.status === "inativo" ? "Ativar" : "Desativar"}</button>
                 <button className="rounded-md text-[#F1F2F6] bg-[#EF4444] w-50 p-1">Excluir sensor</button>
             </div>

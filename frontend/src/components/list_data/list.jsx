@@ -3,10 +3,19 @@ import { FormatDate } from "./list_methods";
 import { Link } from "react-router-dom";
 import { ModalContext } from "../modal/modalContext";
 import { useContext } from "react";
+import { deleteAmbient } from "../../pages/ambiente/ambiente_methods";
 
 export function ListData({ data, type }) {
 
   const { handleModal } = useContext(ModalContext);
+
+  // o ambiente não possui dados complexos, então não há uma página separada de detalhes igual tem para sensores e histórico
+  // por causa disso, fiz aqui o metodo de deletar pois fica mais fácil para a função acessar o dado que precisa
+  const delAmbient = async (id) =>{
+    if(window.confirm("Tem certeza que deseja excluir o ambiente?")){
+      await deleteAmbient(id);
+    }
+  }
 
   return (
     <section className="flex flex-wrap justify-center gap-x-10 gap-y-10">
@@ -59,11 +68,11 @@ export function ListData({ data, type }) {
 
                 <div className="flex justify-center gap-x-10">
                   <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10"
-                    onClick={() => handleModal(JSON.stringify(item), "ambiente")}
+                    onClick={() => handleModal(item, "ambiente")}
                   >
                     EDITAR
                   </button> 
-                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10">
+                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10" onClick={() => delAmbient(item.id)}>
                     EXCLUIR
                   </button>
                 </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { ListData } from "../../components/list_data/list";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import axios from "axios";
@@ -22,7 +22,7 @@ export default function AmbienteContent() {
           return window.alert("Limite de paginas atingido!");
         }
       });
-  }, [paging]);
+  }, [paging, data]);
 
   const handleNext = () => {
     setPaging(paging + 1);
