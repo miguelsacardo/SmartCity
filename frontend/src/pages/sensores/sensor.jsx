@@ -53,50 +53,53 @@ export default function SensorContent() {
   };
   return (
     <div>
-      <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
-        {/* filtro por mac address */}
-        <div className="flex flex-col">
-          
-          <label htmlFor="filter-mac" className="text-xl">
-            Filtro para mac-address
-          </label>
-          
-          <div className="flex items-center justify-end">
-            <input
-              value={macFilter}
-              onChange={(e) => handleMacFilter(e)}
-              id="filter-mac"
-              type="search"
-              placeholder="Busque um mac-address..."
-              className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-65 p-2"
-            />
+      <div className="font-['Poppins'] mt-10 mb-10">
+        <p className="text-center">Para filtrar os sensores, é só digitar um mac ou selecionar um tipo. Importante: caso use os dois filtros simultâneos, eles vão se sobrepor, pois não é possível utilizá-los ao mesmo tempo.</p>
+        <div className="flex items-center justify-center gap-x-25 mt-10">
+          {/* filtro por mac address */}
+          <div className="flex flex-col">
+            
+            <label htmlFor="filter-mac" className="text-xl">
+              Filtro para mac-address
+            </label>
+            
+            <div className="flex items-center justify-end">
+              <input
+                value={macFilter}
+                onChange={(e) => handleMacFilter(e)}
+                id="filter-mac"
+                type="search"
+                placeholder="Busque um mac-address..."
+                className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-65 p-2"
+              />
+            </div>
           </div>
-        </div>
-        
-        <h1 className="text-5xl">SENSORES</h1>
+          
+          <h1 className="text-5xl">SENSORES</h1>
 
-        {/* filtro por tipo */}
-        <div className="flex flex-col">
-          <label htmlFor="filter-sensor" className="text-xl">
-            Filtro para tipo
-          </label>
-          <select
-            name=""
-            id="filter-sensor"
-            className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-65 p-2"
-            value={typeFilter}
-            onChange={(e) => handleTypeFilter(e)}
-          >
-            <option value="-" disabled>
-              Filtre por tipo de sensor...
-            </option>
-            <option value="temperatura">Temperatura</option>
-            <option value="luminosidade">Luminosidade</option>
-            <option value="umidade">Umidade</option>
-            <option value="contagem">Contagem</option>
-            <option value="inativo">Inativo</option>
-            <option value="todos">Todos os sensores</option>
-          </select>
+          {/* filtro por tipo */}
+          <div className="flex flex-col">
+            <label htmlFor="filter-sensor" className="text-xl">
+              Filtro para tipo
+            </label>
+            <select
+              name=""
+              id="filter-sensor"
+              className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-65 p-2"
+              value={typeFilter}
+              onChange={(e) => handleTypeFilter(e)}
+            >
+              <option value="-" disabled>
+                Filtre por tipo de sensor...
+              </option>
+              <option value="temperatura">Temperatura</option>
+              <option value="luminosidade">Luminosidade</option>
+              <option value="umidade">Umidade</option>
+              <option value="contagem">Contagem</option>
+              <option value="inativo">Inativo</option>
+              <option value="todos">Todos os sensores</option>
+            </select>
+          </div>
         </div>
       </div>
       

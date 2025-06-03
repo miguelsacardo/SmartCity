@@ -32,7 +32,7 @@ export default function HistoricoContent() {
 
   const handleFilter = () =>{
 
-    if(!filterDate || !filterType) return window.alert("Os campos 'Filtro para data' e 'Filtro devem estar preenchidos'!");
+    if(!filterDate || !filterType) return window.alert("Os campos 'Filtro para data' e 'Filtro para tipo' devem estar preenchidos!");
     setPaging(1)
     setUrl(`http://127.0.0.1:8000/api/historico/?data=${filterDate}&sensor=${filterType}&horario=${filterTime}&size=8&page=`)
   }
@@ -103,8 +103,6 @@ export default function HistoricoContent() {
         </div>
 
         <h1 className="text-5xl text-center">HISTÓRICO</h1>
-
-        
 
       </div>
       <ListData data={data} type="historico"/>
