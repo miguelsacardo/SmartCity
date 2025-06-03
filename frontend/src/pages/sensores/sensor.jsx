@@ -62,17 +62,13 @@ export default function SensorContent() {
           </label>
           
           <div className="flex items-center justify-end">
-            <IoMdSearch
-              className="text-[#B0FE76] text-4xl absolute mr-3"
-              alt="Icone de lupa"
-            />
             <input
               value={macFilter}
               onChange={(e) => handleMacFilter(e)}
               id="filter-mac"
               type="search"
               placeholder="Busque um mac-address..."
-              className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"
+              className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-65 p-2"
             />
           </div>
         </div>
@@ -87,7 +83,7 @@ export default function SensorContent() {
           <select
             name=""
             id="filter-sensor"
-            className="bg-[#392161] text-[#B0FE76] rounded-md w-60 p-2"
+            className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-65 p-2"
             value={typeFilter}
             onChange={(e) => handleTypeFilter(e)}
           >

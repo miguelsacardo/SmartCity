@@ -47,8 +47,7 @@ export default function AmbienteContent() {
         <div className="flex flex-col">
           <label htmlFor="filter-sig" className="text-xl">Filtro para SIG</label>
           <div className="flex items-center justify-end">
-            <IoMdSearch  className="text-[#B0FE76] text-4xl absolute mr-3" alt="Icone de lupa"/>
-            <input id="filter-sig" type="search" placeholder="Busque um SIG..." className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"
+            <input id="filter-sig" type="search" placeholder="Busque um SIG..."  className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-65 p-2"
             value={sigFilter}
             onChange={(e) => handleSigFilter(e)}/>
           </div>
