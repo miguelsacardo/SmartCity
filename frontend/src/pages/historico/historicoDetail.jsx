@@ -61,8 +61,6 @@ export default function HistoricoDetail() {
             </div>
           </div>
 
-          {/* aqui estao os dados do sensor que o histórico monitora
-          o sensor pode ter vários tipos (contagem, umidade...) e várias medidas ao mesmo tempo */}
           <div className="space-y-5 mt-10">
             <h2 className="text-3xl text-center">Dados do sensor</h2>
               <div className="flex gap-x-10">
@@ -71,21 +69,16 @@ export default function HistoricoDetail() {
                     <span className="text-[#5E4AE3]">Status:</span>
                     <span>{sensor?.[0]?.status}</span>
                   </div>
-                  {sensor.map((medida) => (
-                    <div className="space-x-3" key={medida.id}>
-                      <span className="text-[#5E4AE3]">Medida:</span>
-                      <span>{medida.unidade_medida}</span>
+                  <div className="space-x-3">
+                    <span className="text-[#5E4AE3]">Medida:</span>
+                    <span>{sensor?.[0]?.unidade_medida}</span>
                   </div>
-                  ))}
                 </div>
                 <div className="text-2xl space-y-3">
-
-                  {sensor.map((tipo) =>(
-                    <div className="space-x-3" key={tipo.id}>
-                      <span className="text-[#5E4AE3]">Tipo de sensor:</span>
-                      <span>{tipo.sensor}</span>
-                    </div>
-                  ))}
+                  <div className="space-x-3">
+                    <span className="text-[#5E4AE3]">Tipo de sensor:</span>
+                    <span>{sensor?.[0]?.sensor}</span>
+                  </div>
                   <div className="space-x-3">
                     <span className="text-[#5E4AE3]">Ambiente:</span>
                     <span>{sensor?.[0]?.ambiente}</span>

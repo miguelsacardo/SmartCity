@@ -7,7 +7,6 @@ export async function updateAmbient(id, sig, descricao, ni, responsavel){
         ni: ni,
         responsavel: responsavel
     })
-    .then(response => window.alert("Registro atualizado com sucesso!"))
     .catch(error => window.alert("Ocorreu um erro ao atualizar o ambiente. Verifique se o servidor está funcionando corretamente."))
 }
 

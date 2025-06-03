@@ -3,12 +3,17 @@ import { ListData } from "../../components/list_data/list";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import axios from "axios";
 import { IoMdSearch } from "react-icons/io";
+import { FaFilter } from "react-icons/fa";
 
 
 export default function HistoricoContent() {
   const [paging, setPaging] = useState(1);
   const [data, setData] = useState([]);
   const [url, setUrl] = useState(`http://127.0.0.1:8000/api/list/?type=historico&size=8&page=`);
+
+  const[filterDate, setFilterDate] = useState('');
+  const[filterType, setFilterType] = useState('');
+  const[filterTime, setFilterTime] = useState('');
 
   useEffect(() => {
     axios
@@ -34,31 +39,49 @@ export default function HistoricoContent() {
   }
   return (
     <div>
-      <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
+      <div className="font-['Poppins'] gap-x-25 mt-10 mb-10">
 
-         {/* filtro por mac address
-        <div className="flex flex-col">
-          <label htmlFor="filter-mac" className="text-xl">Filtro para mac-address</label>
-          <div className="flex items-center justify-end">
-            <IoMdSearch  className="text-[#B0FE76] text-4xl absolute mr-3" alt="Icone de lupa"/>
-            <input id="filter-mac" type="search" placeholder="Busque um mac-address..." className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"/>
+        <div className="flex flex-col items-center gap-y-10 mb-10">
+          <p className="text-center">O filtro aqui funciona um pouco diferente. Eles podem funcionar juntos: você pode selecionar um valor apenas para DATA e TIPO ou selecionar um valor para os TRÊS campos juntos e em seguida apertar o botão de filtro.</p>
+          <div className="flex items-center gap-x-15">
+            {/* filtro por data */}
+            <div className="flex flex-col">
+              <label htmlFor="filter-data" className="text-xl">Filtro para data</label>
+              <div className="flex items-center justify-end">
+                <input id="filter-data" type="date" className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-60 p-2"
+                value={filterDate}/>
+              </div>
+            </div>
+
+            {/* filtro por tipo */}
+            <div className="flex flex-col">
+              <label htmlFor="filter-sensor" className="text-xl">Filtro para tipo</label>
+              <select name="" id="filter-sensor" className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-60 p-2" defaultValue="-">
+                <option value="-" disabled>Filtre por tipo de sensor...</option>
+                <option value="temperatura">Temperatura</option>
+                <option value="luminosidade">Luminosidade</option>
+                <option value="umidade">Umidade</option>
+                <option value="contagem">Contagem</option>
+              </select>
+            </div>
+
+            {/* filtro por horário */}
+            <div className="flex flex-col">
+              <label htmlFor="filter-data" className="text-xl">Filtro para horário</label>
+              <div className="flex items-center justify-end">
+                <input id="filter-data" type="time" className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-60 p-2"/>
+              </div>
+            </div>
+
+            <button  className="flex justify-center items-center border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-md w-10 h-10 p-2">
+              <FaFilter />
+            </button>
           </div>
-        </div> */}
+        </div>
 
-        <h1 className="text-5xl">HISTÓRICO</h1>
+        <h1 className="text-5xl text-center">HISTÓRICO</h1>
 
-        {/* filtro por tipo
-        <div className="flex flex-col">
-          <label htmlFor="filter-sensor" className="text-xl">Filtro para tipo</label>
-          <select name="" id="filter-sensor" className="bg-[#392161] text-[#B0FE76] rounded-md w-60 p-2" defaultValue="-">
-            <option value="-" disabled>Filtre por tipo de sensor...</option>
-            <option value="temperatura">Temperatura</option>
-            <option value="luminosidade">Luminosidade</option>
-            <option value="umidade">Umidade</option>
-            <option value="contagem">Contagem</option>
-            <option value="inativo">Inativo</option>
-          </select>
-        </div> */}
+        
 
       </div>
       <ListData data={data} type="historico"/>

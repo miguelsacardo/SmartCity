@@ -91,13 +91,14 @@ class SensorView(RetrieveDestroyAPIView):
     def patch(self, request, pk):
         sensor = get_object_or_404(Sensor, id=pk)
         
-        # correct measurements depending on the type of sensor
-        match request.data["sensor"]:
-            case "temperatura": request.data["unidade_medida"] = "°C"
-            case "luminosidade": request.data["unidade_medida"] = "lux"
-            case "umidade": request.data["unidade_medida"] = "%"
-            case "contagem": request.data["unidade_medida"] = "num"
-            case _: raise Http404({"detail":"tipo de sensor não existente."})
+        if 'sensor' in request.data:
+            # correct measurements depending on the type of sensor
+            match request.data["sensor"]:
+                case "temperatura": request.data["unidade_medida"] = "°C"
+                case "luminosidade": request.data["unidade_medida"] = "lux"
+                case "umidade": request.data["unidade_medida"] = "%"
+                case "contagem": request.data["unidade_medida"] = "num"
+                case _: raise Http404({"detail":"tipo de sensor não existente."})
 
         serializer = SensorSerializer(sensor, data=request.data, partial=True)
         if serializer.is_valid():
@@ -154,8 +155,20 @@ class ListPagedView(ListAPIView):
 class FilterAmbienteView(ListAPIView):
     queryset = Ambiente.objects.all()
     serializer_class = AmbienteSerializer
+    pagination_class = StandardResultsPagination
+
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['sig']
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 # filter sensor -> mac_address and sensor type
 class FilterSensorView(ListAPIView):
@@ -178,6 +191,8 @@ class FilterSensorView(ListAPIView):
 
 # filter historico -> triple filter (date, type sensor, hour)
 class FilterHistoricoView(ListAPIView):
+    pagination_class = StandardResultsPagination
+
     def get_queryset(self):
         query_data = self.request.query_params.get("data")
         query_sensor = self.request.query_params.get("sensor")
@@ -187,6 +202,16 @@ class FilterHistoricoView(ListAPIView):
             return Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor)
         return  Historico.objects.filter(timestamp__date = query_data).filter(sensor__sensor = query_sensor).filter(timestamp__time = query_time)
     serializer_class = HistoricoSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 # functions to sepaate the logic of check "type"
 def check_type_queryset(type):

@@ -97,7 +97,7 @@ export default function SensorContent() {
             <option value="temperatura">Temperatura</option>
             <option value="luminosidade">Luminosidade</option>
             <option value="umidade">Umidade</option>
-            <option value="contador">Contagem</option>
+            <option value="contagem">Contagem</option>
             <option value="inativo">Inativo</option>
             <option value="todos">Todos os sensores</option>
           </select>

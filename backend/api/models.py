@@ -27,7 +27,7 @@ class Sensor(models.Model):
 
     STATUS = (
         ('ativo', 'Ativo'),
-        ('desativado', 'Desativado')
+        ('inativo', 'Inativo')
     )
 
     sensor = models.CharField(max_length=30, choices=SENSOR_TYPES, blank=False, null=False, default="temperatura")

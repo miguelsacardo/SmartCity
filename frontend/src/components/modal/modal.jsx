@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import { ModalContext } from "./modalContext";
 import { updateAmbient } from "../../pages/ambiente/ambiente_methods";
 import axios from "axios";
+import { updateSensor } from "../../pages/sensores/sensor_methods";
+import { useNavigate } from "react-router-dom";
 
 const Modal = () => {
   let { modalContent, handleModal, modal, type } = useContext(ModalContext);
@@ -25,6 +27,9 @@ const Modal = () => {
   const [descricao, setDescricao] = useState("");
   const [ni, setNi] = useState("");
   const [responsavel, setResponsavel] = useState("");
+
+  // navegação para o upSensor (volta para a página de todos os sensores)
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (type === "ambiente") {
@@ -51,7 +56,19 @@ const Modal = () => {
 
   const upAmbient = async (id, sig, descricao, ni, responsavel) => {
     await updateAmbient(id, sig, descricao, ni, responsavel);
+    window.alert("Registro atualizado com sucesso!")
+
+    // faz um reload na página para atualizar os registros e fazer o useEffect de ambientes
+    // trazer o registro que foi atualizado (se eu passar os dados como dependencia do 
+    // useEffect, ele ia ficar fazendo um monte de requisição)
+    location.reload()
   };
+
+  const upSensor = async (id, mac, medida, ambiente, lat, long, tipo) =>{
+    await updateSensor(id, mac, medida, ambiente, lat, long, tipo);
+    window.alert("Sensor atualizado com sucesso!");
+    navigate("/app/gerenciamento");
+  }
 
   if (modal) {
     return createPortal(
@@ -142,24 +159,6 @@ const Modal = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="input-medida">Unidade de medida</label>
-                  <select
-                    name=""
-                    id="input-medida"
-                    defaultValue="-"
-                    onChange={(e) => setMedida(e.target.value)}
-                    className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-lg w-md h-[3.125rem] pl-[0.938rem]"
-                  >
-                    <option value="-" disabled>
-                      Selecione uma medida (Atual: {medida})
-                    </option>
-                    <option value="°C">°C</option>
-                    <option value="lux">Lux</option>
-                    <option value="%">Porcentagem</option>
-                    <option value="num">Número</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
                   <label htmlFor="input-ambiente">Ambiente</label>
                   <select defaultValue="-" id="input-ambiente"
                   onChange={(e) => setAmbiente(e.target.value)}
@@ -216,7 +215,7 @@ const Modal = () => {
                 <button
                   className="text-3xl self-center rounded-md text-[#F1F2F6] bg-[#5E4AE3] w-100 p-1"
                   onClick={() => {
-                    upAmbient(idAmbiente, sig, descricao, ni, responsavel);
+                    upSensor(idSensor, macAddress, medida, ambiente, latitude, longitude, tipo);
                     handleModal();
                   }}
                 >

@@ -7,6 +7,7 @@ import { IoMdSearch } from "react-icons/io";
 export default function AmbienteContent() {
   const [paging, setPaging] = useState(1);
   const [data, setData] = useState([]);
+  const [sigFilter, setSigFilter] = useState("");
   const [url, setUrl] = useState(`http://127.0.0.1:8000/api/list/?type=ambiente&size=8&page=`);
 
   useEffect(() => {
@@ -22,7 +23,15 @@ export default function AmbienteContent() {
           return window.alert("Limite de paginas atingido!");
         }
       });
-  }, [paging, data]);
+  }, [paging, sigFilter]);
+
+  const handleSigFilter = (e) =>{
+    const newSigFilter = e.target.value;
+    setPaging(1)
+    setSigFilter(newSigFilter);
+    newSigFilter ? setUrl(`http://127.0.0.1:8000/api/ambiente/?search=${newSigFilter}&size=8&page=`) :
+    setUrl(`http://127.0.0.1:8000/api/list/?type=ambiente&size=8&page=`);
+  }
 
   const handleNext = () => {
     setPaging(paging + 1);
@@ -34,30 +43,18 @@ export default function AmbienteContent() {
   return (
     <div>
       <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
-         {/* filtro por mac address
+         {/* filtro por sig */}
         <div className="flex flex-col">
-          <label htmlFor="filter-mac" className="text-xl">Filtro para mac-address</label>
+          <label htmlFor="filter-sig" className="text-xl">Filtro para SIG</label>
           <div className="flex items-center justify-end">
             <IoMdSearch  className="text-[#B0FE76] text-4xl absolute mr-3" alt="Icone de lupa"/>
-            <input id="filter-mac" type="search" placeholder="Busque um mac-address..." className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"/>
+            <input id="filter-sig" type="search" placeholder="Busque um SIG..." className="rounded-full bg-[#392161] text-[#B0FE76] w-70 p-3"
+            value={sigFilter}
+            onChange={(e) => handleSigFilter(e)}/>
           </div>
-        </div> */}
+        </div>
 
         <h1 className="text-5xl">AMBIENTE</h1>
-
-        {/* filtro por tipo
-        <div className="flex flex-col">
-          <label htmlFor="filter-sensor" className="text-xl">Filtro para tipo</label>
-          <select name="" id="filter-sensor" className="bg-[#392161] text-[#B0FE76] rounded-md w-60 p-2" defaultValue="-">
-            <option value="-" disabled>Filtre por tipo de sensor...</option>
-            <option value="temperatura">Temperatura</option>
-            <option value="luminosidade">Luminosidade</option>
-            <option value="umidade">Umidade</option>
-            <option value="contagem">Contagem</option>
-            <option value="inativo">Inativo</option>
-          </select>
-        </div> */}
-
       </div>
       <ListData data={data} type="ambiente"/>
 
