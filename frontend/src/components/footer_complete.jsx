@@ -11,16 +11,16 @@ export function FooterComplete() {
         <p className="text-xl">Nossas redes sociais:</p>
         <nav className="flex flex-wrap text-4xl gap-x-[1.25rem]">
           <a href="https://www.facebook.com/" aria-label="Link de direcionamento para o Facebook">
-            <FaFacebook alt="Icone da logo do facebook"/>
+            <FaFacebook aria-label="Icone da logo do facebook"/>
           </a>
           <a href="https://github.com/miguelsacardo/" aria-label="Link de direcionamento para o Github">
-            <FaGithub alt="Icone da logo do github"/>
+            <FaGithub aria-label="Icone da logo do github"/>
           </a>
           <a href="https://br.linkedin.com/" aria-label="Link de direcionamento para o Linkedin">
-            <FaLinkedin alt="Icone da logo do linkedin"/>
+            <FaLinkedin aria-label="Icone da logo do linkedin"/>
           </a>
           <a href="" aria-label="Link de direcionamento para mensangem">
-            <FaRegMessage alt="Icone de mensagem"/>
+            <FaRegMessage aria-label="Icone de mensagem"/>
           </a>
         </nav>
       </div>

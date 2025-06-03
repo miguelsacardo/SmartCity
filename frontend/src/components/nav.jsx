@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
+import { IoMdAdd } from "react-icons/io";
 
 export function Navigation(){
     return(
         <nav className="flex flex-col items-center mt-15">
-            <div className="flex flex-wrap gap-x-35 text-[#F1F2F6] font-['Poppins'] text-2xl ">
+            <div className="flex flex-wrap items-center gap-x-25 text-[#F1F2F6] font-['Poppins'] text-2xl ">
                 <button className="bg-[#5E4AE3] rounded-md h-15 w-50">
                     <Link to="/app/gerenciamento">SENSORES</Link>
                 </button>
                 <button className="bg-[#5E4AE3] rounded-md h-15 w-50">
-                    HISTÓRICO
+                    <Link to="/app/gerenciamento/historico">HISTÓRICO</Link>
                 </button>
                 <button className="bg-[#5E4AE3] rounded-md h-15 w-50">
-                    AMBIENTE
+                    <Link to="/app/gerenciamento/ambiente">AMBIENTE</Link>
+                </button>
+                <button className="flex justify-center items-center bg-[#5E4AE3] rounded-full h-10 w-10">
+                    <IoMdAdd aria-label="Adicionar novos sensores, históricos e ambientes"/>
                 </button>
             </div>
 

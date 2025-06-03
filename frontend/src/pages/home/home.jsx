@@ -11,7 +11,7 @@ export default function Home(){
             {/* aqui define a div como relative para o elemento absolute se basear nela */}
             <section className="relative w-full h-[30rem] overflow-hidden">
                 <div className="w-full bg-[#5E4AE3]">
-                        <img src="/img/smartcity.jpg" alt="Smart City, uma cidade interligada e futurística, dando ênfase na tecnologia" className="w-full h-120 opacity-25"/>
+                        <img src="/img/smartcity.jpg" alt="Smart City, uma cidade interligada e futurística, dando ênfase na tecnologia" className="w-screen h-120 opacity-25"/>
                 </div>
 
                 {/* deixa essa div absoluta com base na div que envolve toda essa sessão e o inset-0 faz ela ocupar 100% do container */}

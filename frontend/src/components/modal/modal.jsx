@@ -166,7 +166,7 @@ const Modal = () => {
                     <option value="-" disabled>Selecione um ambiente (Atual: {ambiente})</option>
                       {
                         data.map((ambiente) => (
-                          <option value={ambiente.sig}>SIG: {ambiente.sig}</option>
+                          <option value={ambiente.sig} key={ambiente.id}>SIG: {ambiente.sig}</option>
                         ))
                       }
                   </select>

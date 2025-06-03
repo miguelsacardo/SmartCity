@@ -1,13 +1,6 @@
 import { Chart as ChartJS, scales } from "chart.js/auto";
 import {
-  Bar,
-  Doughnut,
   Line,
-  Bubble,
-  Pie,
-  PolarArea,
-  Radar,
-  Scatter,
 } from "react-chartjs-2";
 import { FormatDate } from "./list_data/list_methods";
 
