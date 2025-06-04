@@ -88,7 +88,7 @@ const Modal = () => {
     if(!file || !type) return window.alert("É necessário importar o arquivo e selecionar um tipo!")
     await importData(file, type);
     
-    // location.reload();
+    location.reload();
   }
 
   if (modal) {
