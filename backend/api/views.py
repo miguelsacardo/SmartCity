@@ -43,7 +43,7 @@ class ImportData(APIView):
                 resource = AmbienteResource()
             case "sensor":
                 # convert the value of 'ambient' to str
-                df['ambiente'] = df['ambiente'].astype(str)
+                df['ambiente'] = df['ambiente'].astype(int).astype(str)
                 resource = SensorResource()
             case "data":
                 resource = HistoricoResource()

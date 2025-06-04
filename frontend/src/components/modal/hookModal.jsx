@@ -7,9 +7,11 @@ export default () =>{
 
     let handleModal = (content = false, contentType) =>{
         setModal(!modal);
-        if(content && contentType){
-            setType(contentType)
+        if(content){
             setModalContent(content);
+        }
+        if(contentType){
+            setType(contentType)
         }
     }
 

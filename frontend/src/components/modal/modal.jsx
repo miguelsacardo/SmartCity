@@ -5,7 +5,9 @@ import { updateAmbient } from "../../pages/ambiente/ambiente_methods";
 import axios from "axios";
 import { updateSensor } from "../../pages/sensores/sensor_methods";
 import { useNavigate } from "react-router-dom";
+import { importData } from "./modal_methods";
 
+// esse e o modal principal que lida com as atualizacoes de sensor e ambiente
 const Modal = () => {
   let { modalContent, handleModal, modal, type } = useContext(ModalContext);
 
@@ -28,16 +30,22 @@ const Modal = () => {
   const [ni, setNi] = useState("");
   const [responsavel, setResponsavel] = useState("");
 
+  // useState de adicionar dados (selecionar o que se pode adicionar e enviar o arquivo)
+  const[option, setOption] = useState("")
+  const[file, setFile] = useState([])
+
   // navegação para o upSensor (volta para a página de todos os sensores)
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     if (type === "ambiente") {
       setIdAmbiente(modalContent?.id);
       setSig(modalContent?.sig);
       setDescricao(modalContent?.descricao);
       setNi(modalContent?.ni);
       setResponsavel(modalContent?.responsavel);
+      
     } else if (type === "sensor") {
       axios
         .get("http://127.0.0.1:8000/api/list/?type=ambiente")
@@ -52,6 +60,7 @@ const Modal = () => {
       setLongitude(modalContent?.longitude);
       setTipo(modalContent?.sensor);
     }
+    
   }, [modalContent]);
 
   const upAmbient = async (id, sig, descricao, ni, responsavel) => {
@@ -68,6 +77,12 @@ const Modal = () => {
     await updateSensor(id, mac, medida, ambiente, lat, long, tipo);
     window.alert("Sensor atualizado com sucesso!");
     navigate("/app/gerenciamento");
+  }
+
+  const importFile = async (file, type) =>{
+    await importData(file, type);
+    window.alert("Arquivo importado com sucesso!");
+    // location.reload();
   }
 
   if (modal) {
@@ -223,6 +238,53 @@ const Modal = () => {
                 </button>
               </div>
             )}
+
+            {
+              type === "adicionar" &&(
+                <div className="space-y-5">
+                  <div className="flex flex-col">
+                    <label htmlFor="input-file">Escolha seu arquivo XLSX:</label>
+                    <input
+                      type="file"
+                      id="input-file"
+                      className="border-[0.188rem] border-[rgba(94,74,227,0.2)] rounded-lg w-md pl-[0.938rem]"
+                      onChange={(e) => setFile(e.target.files[0])}
+                    />
+                  </div>
+
+                  <div className="">
+                    <p>Escolha o tipo de seu arquivo:</p>
+                    <div className="space-x-5">
+                      <input type="radio" name="option" id="radio-ambiente" value="ambiente"
+                      onChange={(e) => setOption(e.target.value)}/>
+                      <label htmlFor="radio-ambiente">Ambiente</label>
+                    </div>
+                    <div className="space-x-5">
+                      <input type="radio" name="option" id="radio-sensor" value="sensor"
+                      onChange={(e) => setOption(e.target.value)}/>
+                      <label htmlFor="radio-sensor">Sensor</label>
+                    </div>
+                    <div className="space-x-5">
+                      <input type="radio" name="option" id="radio-data" value="data"
+                      onChange={(e) => setOption(e.target.value)}/>
+                      <label htmlFor="radio-data">Historico</label>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center">
+                    <button
+                    className="text-3xl self-center rounded-md text-[#F1F2F6] bg-[#5E4AE3] w-100 p-1"
+                    onClick={() => {
+                      importFile(file, option);
+                      handleModal();
+                    }}
+                    >
+                      Adicionar
+                    </button>
+                  </div>
+                </div>
+              )
+            }
           </div>
         </div>
       </div>,
