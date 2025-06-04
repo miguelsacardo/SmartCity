@@ -9,6 +9,7 @@ export async function updateSensor(id, mac, medida, ambiente, latitude, longitud
         longitude: longitude,
         sensor: tipo
     })
+    .then(response => window.alert("Sensor atualizado com sucesso!"))
     .catch(error => window.alert("Não foi possível atualizar o sensor. Verifique se o servidor está funcionando corretamente!"))
 }
 export async function setStatus(id, status){
@@ -20,5 +21,5 @@ export async function setStatus(id, status){
 
 export async function deleteSensor(id){
     await axios.delete(`http://127.0.0.1:8000/api/sensor/${id}`)
-    .catch(error => window.alert*"Ocorreu um erro ao excluir o sensor. Verifique se o servidor está funcionando corretamente.");
+    .catch(error => window.alert("Ocorreu um erro ao excluir o sensor. Verifique se o servidor está funcionando corretamente."));
 }

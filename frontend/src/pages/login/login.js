@@ -16,7 +16,6 @@ export async function authUser(username, password){
 
         const token = response.data.access;
         localStorage.setItem('token', token);
-        console.log(token);
         return token;
     } catch (error) {
         if(error.response.data.detail.includes("No active account found with the given credentials")){

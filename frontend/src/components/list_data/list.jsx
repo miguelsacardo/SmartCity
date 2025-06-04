@@ -14,6 +14,7 @@ export function ListData({ data, type }) {
   const delAmbient = async (id) =>{
     if(window.confirm("Tem certeza que deseja excluir o ambiente?")){
       await deleteAmbient(id);
+      location.reload()
     }
   }
 

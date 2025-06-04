@@ -26,6 +26,7 @@ class UserRegistrationView(ListCreateAPIView):
 
 class ImportData(APIView):
     parser_classes = [parsers.MultiPartParser]
+    permission_classes = [IsAdminUser]
 
     def post(self, request, *args, **kwargs):
         file = request.FILES['excel']
@@ -54,7 +55,7 @@ class ImportData(APIView):
         dataset = Dataset().load(df)
 
         # simulates an import, but does not save data to the database yet
-        result = request_resource.import_data(dataset, dry_run=True, raise_errors=True)
+        result = request_resource.import_data(dataset, dry_run=True, raise_errors=False)
 
         if not result.has_errors():
             result = request_resource.import_data(dataset, dry_run=False)
@@ -71,6 +72,7 @@ class ImportData(APIView):
 
 # responsible to patch and destroy ambients
 class AmbienteView(RetrieveDestroyAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Ambiente.objects.all()
     serializer_class = AmbienteSerializer
     

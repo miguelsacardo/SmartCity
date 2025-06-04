@@ -30,6 +30,7 @@ export function Register() {
       });
 
       window.alert("Usuario registrado com sucesso!");
+      navigate("/login")
 
     } catch (error) {
       if(error.response && error.response.data.username) {

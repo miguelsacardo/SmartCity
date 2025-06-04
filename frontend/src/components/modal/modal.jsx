@@ -65,7 +65,7 @@ const Modal = () => {
 
   const upAmbient = async (id, sig, descricao, ni, responsavel) => {
     await updateAmbient(id, sig, descricao, ni, responsavel);
-    window.alert("Registro atualizado com sucesso!")
+
 
     // faz um reload na página para atualizar os registros e fazer o useEffect de ambientes
     // trazer o registro que foi atualizado (se eu passar os dados como dependencia do 
@@ -75,13 +75,13 @@ const Modal = () => {
 
   const upSensor = async (id, mac, medida, ambiente, lat, long, tipo) =>{
     await updateSensor(id, mac, medida, ambiente, lat, long, tipo);
-    window.alert("Sensor atualizado com sucesso!");
     navigate("/app/gerenciamento");
   }
 
   const importFile = async (file, type) =>{
+    if(!file || !type) return window.alert("É necessário importar o arquivo e selecionar um tipo!")
     await importData(file, type);
-    window.alert("Arquivo importado com sucesso!");
+    
     // location.reload();
   }
 
@@ -99,7 +99,7 @@ const Modal = () => {
             &times;
           </button>
 
-          <h1 className="text-3xl mb-5">EDITAR SENSOR</h1>
+          <h1 className="text-3xl mb-5">{type === "ambiente" ? "Editar ambiente" : type === "sensor" ? "Editar sensor" : type === "adicionar" ? "Importar arquivo excel" : "-"}</h1>
           <div>
             {type === "ambiente" && (
               <div className="flex flex-col gap-y-5 font-['Poppins']">

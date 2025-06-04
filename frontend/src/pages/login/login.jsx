@@ -13,7 +13,7 @@ export function Login(e) {
         await authUser(username, password);
         const token = localStorage.getItem('token');
         if(!token) return window.alert("O login falhou. Verifique as credênciais e tente novamente.");
-        
+        navigate("/app")
     }
   return (
     <div className="flex flex-col min-h-screen">

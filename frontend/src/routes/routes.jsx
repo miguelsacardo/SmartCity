@@ -4,6 +4,7 @@ import { Login } from "../pages/login/login.jsx";
 import { Inicial } from "../pages/inicial.jsx";
 import { Gerenciamento } from "../pages/gerenciamento.jsx";
 import React, { lazy, Suspense } from "react";
+import { Redirect } from "../pages/404.jsx";
 
 export function Rotas(){
 
@@ -18,6 +19,7 @@ export function Rotas(){
         <Routes>
             <Route path='/' element={<Register/>}/>
             <Route path='/login' element={<Login/>}/>
+            <Route path="/redirect" element={<Redirect />}/>
 
             <Route path="/app" element={<Inicial/>}>
                 <Route index element={
