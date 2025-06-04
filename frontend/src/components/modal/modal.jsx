@@ -37,6 +37,8 @@ const Modal = () => {
   // navegação para o upSensor (volta para a página de todos os sensores)
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token")
+
   useEffect(() => {
     
     if (type === "ambiente") {
@@ -48,7 +50,11 @@ const Modal = () => {
       
     } else if (type === "sensor") {
       axios
-        .get("http://127.0.0.1:8000/api/list/?type=ambiente")
+        .get("http://127.0.0.1:8000/api/list/?type=ambiente",{
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        })
         .then((response) => setData(response.data.results))
         .catch((error) => console.log(error));
         
@@ -94,13 +100,14 @@ const Modal = () => {
         <div className="bg-white relative p-10 shadow-lg rounded flex flex-col items-start text-lg text-gray-800">
           <button
             className="flex justify-center font-bold self-end rounded-full mb-3 bg-[#5E4AE3] text-[#F1F2F6] w-10 h-10 text-3xl"
+            aria-label="Fechar modal"
             onClick={() => handleModal()}
           >
             &times;
           </button>
 
           <h1 className="text-3xl mb-5">{type === "ambiente" ? "Editar ambiente" : type === "sensor" ? "Editar sensor" : type === "adicionar" ? "Importar arquivo excel" : "-"}</h1>
-          <div>
+          <div className="font-['Poppins']">
             {type === "ambiente" && (
               <div className="flex flex-col gap-y-5 font-['Poppins']">
                 <div className="flex flex-col">

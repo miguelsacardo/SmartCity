@@ -9,10 +9,15 @@ export default function AmbienteContent() {
   const [data, setData] = useState([]);
   const [sigFilter, setSigFilter] = useState("");
   const [url, setUrl] = useState(`http://127.0.0.1:8000/api/list/?type=ambiente&size=8&page=`);
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
     axios
-      .get(url + `${paging}`)
+      .get(url + `${paging}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setData(response.data.results);
       })
@@ -41,7 +46,7 @@ export default function AmbienteContent() {
     setPaging(paging - 1)
   }
   return (
-    <div>
+    <section>
       <div className="flex items-center justify-center font-['Poppins'] gap-x-25 mt-10 mb-10">
          {/* filtro por sig */}
         <div className="flex flex-col">
@@ -62,6 +67,6 @@ export default function AmbienteContent() {
         <h2>{paging}</h2>
         <button onClick={handleNext} aria-label="Trazer dados da paginacao seguinte"><GrLinkNext alt="Seta apontando para a direita"/></button>
       </div>
-    </div>
+    </section>
   );
 }

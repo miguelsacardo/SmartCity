@@ -18,7 +18,10 @@ export async function authUser(username, password){
         localStorage.setItem('token', token);
         return token;
     } catch (error) {
-        if(error.response.data.detail.includes("No active account found with the given credentials")){
+        if(error.code.includes("ERR_NETWORK")){
+            window.alert("Ocorreu um erro ao fazer login. Verifique se o servidor está funcionando!");
+        }
+        else if(error.response.data.detail.includes("No active account found with the given credentials")){
             window.alert("Ocorreu um erro ao fazer login. Verifique se o usuário informado existe!");
         }
     }

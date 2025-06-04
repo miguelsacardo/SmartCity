@@ -74,14 +74,14 @@ export function Login(e) {
                   Fazer Login
                 </button>
 
-                <h4>
-                  Nao possui conta?{" "}
+                <p>
+                  Não possui conta?{" "}
                   <span className="text-[#5E4AE3]">
                     <Link to="/">
                         Clique aqui para fazer seu cadastro!
                     </Link>
                   </span>
-                </h4>
+                </p>
               </div>
             </fieldset>
           </form>

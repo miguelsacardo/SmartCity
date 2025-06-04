@@ -10,10 +10,15 @@ export default function SensorContent() {
   const [macFilter, setMacFilter] = useState("");
   const [url, setUrl] = useState(`http://127.0.0.1:8000/api/list/?type=sensor&size=8&page=`);
   const [data, setData] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     axios
-      .get(url + `${paging}`)
+      .get(url + `${paging}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setData(response.data.results);
       })
@@ -52,7 +57,7 @@ export default function SensorContent() {
     setPaging(paging - 1);
   };
   return (
-    <div>
+    <section>
       <div className="font-['Poppins'] mt-10 mb-10">
         <p className="text-center">Para filtrar os sensores, é só digitar um mac ou selecionar um tipo. Importante: caso use os dois filtros simultâneos, eles vão se sobrepor, pois não é possível utilizá-los ao mesmo tempo.</p>
         <div className="flex items-center justify-center gap-x-25 mt-10">
@@ -120,6 +125,6 @@ export default function SensorContent() {
           <GrLinkNext alt="Seta apontando para a direita" />
         </button>
       </div>
-    </div>
+    </section>
   );
 }

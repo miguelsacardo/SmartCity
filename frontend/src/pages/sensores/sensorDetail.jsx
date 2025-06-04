@@ -19,7 +19,6 @@ export default function SensorDetail() {
       
       console.log(status)
       await setStatus(id, status);
-      window.alert("Status alterado com sucesso!");
       navigate("/app/gerenciamento")
     }
   }
@@ -28,7 +27,6 @@ export default function SensorDetail() {
   const delSensor = async(id) =>{
     if(window.confirm("ATENÇÃO! A exclusão de sensor é permanente! Seu histórico de dados também será excluído. Caso ainda queira vê-lo, recomendamos que apenas desative o sensor. Deseja continuar?")){
       await deleteSensor(id);
-      window.alert("Sensor excluído com sucesso!");
       navigate("/app/gerenciamento")
     }
   }

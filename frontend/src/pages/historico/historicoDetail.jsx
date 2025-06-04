@@ -11,12 +11,16 @@ export default function HistoricoDetail() {
   const [data, setData] = useState([]);
   const [sensor, setSensor] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
+  const token = localStorage.getItem("token")
+  useEffect(() => { 
 
     // encontra todo o historico de dados do sensor com base em seu mac
     axios
-      .get(`http://127.0.0.1:8000/api/sensor-historico/?sensor=${mac_address}`)
+      .get(`http://127.0.0.1:8000/api/sensor-historico/?sensor=${mac_address}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setData(response.data);
       })
@@ -38,7 +42,7 @@ export default function HistoricoDetail() {
   const deleteMethod = async (id) =>{
     if(window.confirm(`Tem certeza que deseja excluir o registro do histórico com id = ${id}?`)){
       await deleteHistory(id);
-      window.alert("Histórico excluído com sucesso!")
+
       navigate("/app/gerenciamento/historico")
     }
   }

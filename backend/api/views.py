@@ -87,6 +87,7 @@ class AmbienteView(RetrieveDestroyAPIView):
 
 # responsible to patch and destroy sensors
 class SensorView(RetrieveDestroyAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
     
@@ -110,6 +111,7 @@ class SensorView(RetrieveDestroyAPIView):
 
 # responsible to patch and destroy historico
 class HistoricoView(RetrieveDestroyAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Historico.objects.all()
     serializer_class = HistoricoSerializer
     
@@ -123,6 +125,7 @@ class HistoricoView(RetrieveDestroyAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GetHistoricoFromSensor(ListAPIView):
+    permission_classes = [IsAdminUser]
     def get_queryset(self):
         return Historico.objects.filter(sensor__mac_address = self.request.query_params.get("sensor"))
     serializer_class = HistoricoSerializer
@@ -130,7 +133,7 @@ class GetHistoricoFromSensor(ListAPIView):
 
 # makes lists of historico, sensor and ambiente depending on the query parameter 
 class ListPagedView(ListAPIView):
-    
+    permission_classes = [IsAdminUser]
     def get_queryset(self):
         type = self.request.query_params.get("type")
         return check_type_queryset(type)

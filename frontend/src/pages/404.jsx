@@ -5,7 +5,7 @@ export function Redirect() {
       <div>
         <h1 className="text-red-500 text-[100px]">404</h1>
         <p className="text-[50px]">
-          Por favor, faca login para ter acesso ao site.
+          Por favor, faça login para ter acesso ao site.
         </p>
         <p>
           Verifique se suas credenciais estão corretas e tente novamente ou peça

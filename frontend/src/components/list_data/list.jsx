@@ -41,9 +41,11 @@ export function ListData({ data, type }) {
 
                 <DataContent title="Tipo de sensor" value={item.sensor} />
 
-                <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-3xl w-100 h-15">
-                  <Link to="/app/sensor" state={{ from: item }}>VER DADOS</Link>
-                </button> 
+                <Link to="/app/sensor" state={{ from: item }}>
+                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-3xl w-100 h-15" aria-label="Ver detalhes do sensor">
+                    VER DADOS
+                  </button> 
+                </Link>
               </div>
             )}
 
@@ -54,9 +56,11 @@ export function ListData({ data, type }) {
                 <DataContent title="Valor" value={item.valor}/>
                 <DataContent title="Data e hora" value={FormatDate(item.timestamp)}/>
 
-                <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-3xl w-100 h-15">
-                  <Link to="/app/historico" state={{ mac_address: item.sensor, id_historico: item.id }}>VER GRAFICO COMPLETO</Link>
-                </button> 
+                <Link to="/app/historico" state={{ mac_address: item.sensor, id_historico: item.id }}>
+                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-3xl w-100 h-15" aria-label="Ir para a página do gráfico do histórico">
+                    VER GRAFICO COMPLETO
+                  </button> 
+                </Link>
               </div>
             )}
 
@@ -70,10 +74,10 @@ export function ListData({ data, type }) {
                 <div className="flex justify-center gap-x-10">
                   <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10"
                     onClick={() => handleModal(item, "ambiente")}
-                  >
+                  aria-label="Atualizar ambiente">
                     EDITAR
                   </button> 
-                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10" onClick={() => delAmbient(item.id)}>
+                  <button className="rounded-md mt-5 bg-[#392161] text-[#F1F2F6] text-2xl w-auto h-15 pr-10 pl-10" onClick={() => delAmbient(item.id)} aria-label="Excluir ambiente">
                     EXCLUIR
                   </button>
                 </div>

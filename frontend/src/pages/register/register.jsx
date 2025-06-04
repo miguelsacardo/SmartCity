@@ -121,12 +121,12 @@ export function Register() {
                   Fazer Registro
                 </button>
 
-                <h4>
+                <p>
                   Já possui cadastro?{" "}
                   <span className="text-[#5E4AE3]">
                     <Link to="/login">Clique aqui para fazer login!</Link>
                   </span>
-                </h4>
+                </p>
               </div>
             </fieldset>
           </form>

@@ -14,10 +14,15 @@ export default function HistoricoContent() {
   const[filterDate, setFilterDate] = useState('');
   const[filterType, setFilterType] = useState('');
   const[filterTime, setFilterTime] = useState('');
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
     axios
-      .get(url + `${paging}`)
+      .get(url + `${paging}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setData(response.data.results);
       })
@@ -49,7 +54,7 @@ export default function HistoricoContent() {
     setPaging(paging - 1)
   }
   return (
-    <div>
+    <section>
       <div className="font-['Poppins'] gap-x-25 mt-10 mb-10">
 
         <div className="flex flex-col items-center gap-y-10 mb-10">
@@ -112,6 +117,6 @@ export default function HistoricoContent() {
         <h2>{paging}</h2>
         <button onClick={handleNext} aria-label="Trazer dados da paginacao seguinte"><GrLinkNext alt="Seta apontando para a direita"/></button>
       </div>
-    </div>
+    </section>
   );
 }
