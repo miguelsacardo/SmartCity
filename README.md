@@ -25,7 +25,7 @@ http://127.0.0.1:8000/api/token/refresh/ (token de refresh)
 ```json
 {
     "username":"root",
-    "password":"root
+    "password":"root"
 }
 ```
 
