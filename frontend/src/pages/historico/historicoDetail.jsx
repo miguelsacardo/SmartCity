@@ -51,7 +51,7 @@ export default function HistoricoDetail() {
     <>
       <HeaderDetail title={mac_address} type="historico" id={id_historico} />
       <section className="mt-10 mb-10">
-        <article className="flex flex-col items-center">
+        <div className="flex flex-col items-center">
 
           {/* texto para introduzir o tema da página */}
           <div className="space-y-10">
@@ -94,7 +94,7 @@ export default function HistoricoDetail() {
           <div className="text-2xl mt-10">
             <button className="rounded-md text-[#F1F2F6] bg-[#EF4444] w-50 p-1" onClick={() => deleteMethod(id_historico)}>Excluir registro</button>
           </div>
-        </article>
+        </div>
       </section>
     </>
   );
