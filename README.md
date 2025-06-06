@@ -1,27 +1,49 @@
-BD modelado:
+# SMART CITY
 
-HISTORICO(
-  SENSOR FK,
-  VALOR,
-  TIMESTAMP
-)
+### como rodar o backend
 
-SENSOR(
-  sensor,
-  ambiente FK,
-  mac_address,
-  unidade_med,
-  latitude,
-  longiture,
-  status
-)
+```bash
+cd backend
 
-AMBIENTE(
-  sig,
-  descricao,
-  ni,
-  responsavel
-)
+py -m venv env
 
--> o ambiente pode ser apenas uma coluna na tabela "sensor"
+env\scripts\activate 
+
+(env) pip install -r requirements.txt
+
+(env) py manage.py runserver
+
+```
+
+### rotas do backend
+
+#### obter token para login
+http://127.0.0.1:8000/api/token/ (access token)
+http://127.0.0.1:8000/api/token/refresh/ (token de refresh)
+
+##### usuário pronto para login:
+```json
+{
+    "username":"root",
+    "password":"root
+}
+```
+
+#### cadastrar usuário
+http://127.0.0.1:8000/api/user/
+
+##### modelo de registro:
+```json
+{
+    "username":"exemplo",
+    "email":"exemplo@exemplo.com",
+    "password":"exemplo"
+}
+```
+
+#### importar arquivos do excel
+http://127.0.0.1:8000/api/data/
+
+
+
 
